@@ -8,9 +8,6 @@
 }
 
 html,
-body,
-#root,
-.container {
-    height: 100%;
-    position: relative;
+body {
+    background: $lightGrey;
 }

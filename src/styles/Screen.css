@@ -5,8 +5,5 @@
   font-family: "Open Sans", sans-serif; }
 
 html,
-body,
-#root,
-.container {
-  height: 100%;
-  position: relative; }
+body {
+  background: #e4e4e4; }

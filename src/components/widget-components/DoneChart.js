@@ -10,7 +10,13 @@ export class DoneChart extends Component {
 
         //Push this finished chart to the screen
         return (
-            <div className="horizontal-chart">
+            <div
+                className={
+                    doneRatio == 1
+                        ? "horizontal-chart full"
+                        : "horizontal-chart"
+                }
+            >
                 <div
                     className="chart-bar green"
                     style={{ width: doneRatio * 100 + "%" }}

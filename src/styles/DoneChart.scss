@@ -8,6 +8,8 @@
     position: relative;
     border-radius: 3px;
     overflow: hidden;
+    box-shadow: $matShadowLight;
+    transition: box-shadow 500ms $matEaseStd;
 
     .chart-bar {
         height: 100%;
@@ -16,13 +18,11 @@
     }
 
     .chart-bar.green {
-        background: $green;
+        background: $white;
         z-index: 2;
         transition: width 500ms $matEaseStd;
     }
-
-    .chart-bar.red {
-        background: $red;
-        z-index: 1;
-    }
+}
+.horizontal-chart.full {
+    box-shadow: $matShadowHeavy;
 }

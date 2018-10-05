@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import Link from "./Link";
 
 //Stylesheet
-import "../styles/Header.css";
+import "../styles/Link.css";
 
-export class Header extends Component {
+export class Link extends Component {
     constructor(props) {
         super(props);
 
@@ -63,34 +62,17 @@ export class Header extends Component {
 
     render() {
         return (
-            <header>
-                <Link className="brand" href="#">
-                    DailyGoals
-                </Link>
-                <Nav items={["DAY", "WEEK", "MONTH"]} />
-            </header>
+            <a
+                className={this.props.className}
+                href={this.props.href}
+                style={this.state.styles.brand}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+            >
+                {this.props.children}
+            </a>
         );
     }
 }
 
-const Nav = props => {
-    let items = props.items.map(item => {
-        return (
-            <NavItem key={item}>
-                <Link>{item}</Link>
-            </NavItem>
-        );
-    });
-
-    return (
-        <nav>
-            <ul>{items}</ul>
-        </nav>
-    );
-};
-
-const NavItem = props => {
-    return <li className="nav-item">{props.children}</li>;
-};
-
-export default Header;
+export default Link;

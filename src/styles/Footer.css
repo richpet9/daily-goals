@@ -1,0 +1,9 @@
+.footer-container {
+  margin-top: 80px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: lighter; }
+  .footer-container .footer-copy {
+    display: inline; }
+  .footer-container a:hover {
+    border-bottom: none; }

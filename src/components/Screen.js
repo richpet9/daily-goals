@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
+import Footer from "./Footer";
 
 //Stylesheet
 import "../styles/Screen.css";
@@ -11,6 +12,7 @@ class Screen extends Component {
             <div className="container">
                 <Header />
                 <Dashboard />
+                <Footer />
             </div>
         );
     }

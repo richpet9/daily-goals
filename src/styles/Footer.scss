@@ -1,0 +1,16 @@
+@import "../styles/_default.scss";
+
+.footer-container {
+    margin-top: 80px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: lighter;
+
+    .footer-copy {
+        display: inline;
+    }
+
+    a:hover {
+        border-bottom: none;
+    }
+}
