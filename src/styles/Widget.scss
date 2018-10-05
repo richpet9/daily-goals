@@ -1,0 +1,32 @@
+@import "_default.scss";
+
+.widget {
+    display: inline-block;
+    width: calc(80% - 64px);
+    min-width: 200px;
+    background: white;
+    vertical-align: top;
+    margin: 32px;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: $matShadowLight;
+    text-align: left;
+
+    .widget-title {
+        font-weight: bold;
+        padding: 8px 16px;
+    }
+
+    .widget-body {
+        padding: 8px 16px;
+        background: $lighterGrey;
+    }
+
+    .widget-section-header {
+        margin: 32px 0 16px 0;
+    }
+
+    .widget-section-header:first-of-type {
+        margin-top: 8px;
+    }
+}

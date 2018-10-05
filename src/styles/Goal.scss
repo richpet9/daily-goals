@@ -1,0 +1,24 @@
+@import "_default.scss";
+
+.goal {
+    background: $red;
+    margin: 0 16px;
+    margin-bottom: 32px;
+    padding: 32px 8px;
+    color: $white;
+    width: calc(25% - 32px);
+    min-width: 175px;
+    box-shadow: $matShadowLight;
+    text-align: center;
+    cursor: pointer;
+    transition: all 150ms $matEaseStd;
+    border-radius: 3px;
+}
+
+.goal.done {
+    background: $green;
+}
+
+.goal:hover {
+    box-shadow: $matShadowHeavy;
+}

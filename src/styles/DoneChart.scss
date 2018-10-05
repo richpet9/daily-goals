@@ -1,0 +1,28 @@
+@import "_default.scss";
+
+.horizontal-chart {
+    height: 20px;
+    width: 100%;
+    background: $darkGrey;
+    margin: 10px 0;
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+
+    .chart-bar {
+        height: 100%;
+        position: absolute;
+        width: 100%;
+    }
+
+    .chart-bar.green {
+        background: $green;
+        z-index: 2;
+        transition: width 500ms $matEaseStd;
+    }
+
+    .chart-bar.red {
+        background: $red;
+        z-index: 1;
+    }
+}

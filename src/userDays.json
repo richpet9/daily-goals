@@ -1,0 +1,104 @@
+[
+    {
+        "dayId": 0,
+        "dayName": "Monday",
+        "dayNum": 14,
+        "dayMonth": 11,
+        "dayYear": 2018,
+        "dayGoals": [
+            {
+                "goalId": 0,
+                "goalText": "Go to bathroom",
+                "goalDone": true
+            },
+            {
+                "goalId": 1,
+                "goalText": "Go to work",
+                "goalDone": false
+            },
+            {
+                "goalId": 2,
+                "goalText": "Make breakfast",
+                "goalDone": true
+            },
+            {
+                "goalId": 3,
+                "goalText": "Do laundry",
+                "goalDone": false
+            },
+            {
+                "goalId": 4,
+                "goalText": "Go to gym",
+                "goalDone": true
+            }
+        ]
+    },
+    {
+        "dayId": 1,
+        "dayName": "Tuesday",
+        "dayNum": 15,
+        "dayMonth": 11,
+        "dayYear": 2018,
+        "dayGoals": [
+            {
+                "goalId": 0,
+                "goalText": "Go to bathroom",
+                "goalDone": true
+            },
+            {
+                "goalId": 1,
+                "goalText": "Go to work",
+                "goalDone": false
+            },
+            {
+                "goalId": 2,
+                "goalText": "Make breakfast",
+                "goalDone": false
+            },
+            {
+                "goalId": 3,
+                "goalText": "Do laundry",
+                "goalDone": false
+            },
+            {
+                "goalId": 4,
+                "goalText": "Go to gym",
+                "goalDone": false
+            }
+        ]
+    },
+    {
+        "dayId": 2,
+        "dayName": "Wednesday",
+        "dayNum": 16,
+        "dayMonth": 11,
+        "dayYear": 2018,
+        "dayGoals": [
+            {
+                "goalId": 0,
+                "goalText": "Go to bathroom",
+                "goalDone": true
+            },
+            {
+                "goalId": 1,
+                "goalText": "Go to work",
+                "goalDone": false
+            },
+            {
+                "goalId": 2,
+                "goalText": "Make breakfast",
+                "goalDone": true
+            },
+            {
+                "goalId": 3,
+                "goalText": "Do laundry",
+                "goalDone": true
+            },
+            {
+                "goalId": 4,
+                "goalText": "Go to gym",
+                "goalDone": true
+            }
+        ]
+    }
+]
