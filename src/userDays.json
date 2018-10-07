@@ -7,11 +7,6 @@
         "dayYear": 2018,
         "dayGoals": [
             {
-                "goalId": 0,
-                "goalText": "Go to bathroom",
-                "goalDone": true
-            },
-            {
                 "goalId": 1,
                 "goalText": "Go to work",
                 "goalDone": false
@@ -25,11 +20,6 @@
                 "goalId": 3,
                 "goalText": "Do laundry",
                 "goalDone": false
-            },
-            {
-                "goalId": 4,
-                "goalText": "Go to gym",
-                "goalDone": true
             }
         ]
     },
@@ -46,18 +36,8 @@
                 "goalDone": true
             },
             {
-                "goalId": 1,
-                "goalText": "Go to work",
-                "goalDone": false
-            },
-            {
                 "goalId": 2,
                 "goalText": "Make breakfast",
-                "goalDone": false
-            },
-            {
-                "goalId": 3,
-                "goalText": "Do laundry",
                 "goalDone": false
             },
             {
@@ -83,11 +63,6 @@
                 "goalId": 1,
                 "goalText": "Go to work",
                 "goalDone": false
-            },
-            {
-                "goalId": 2,
-                "goalText": "Make breakfast",
-                "goalDone": true
             },
             {
                 "goalId": 3,

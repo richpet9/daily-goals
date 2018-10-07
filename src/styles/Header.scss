@@ -28,7 +28,8 @@ nav ul {
 
 header {
     height: 50px;
-    background: white;
+    background: $white;
+    border-bottom: 1px solid $lightGrey;
 
     .brand {
         position: relative;
@@ -54,7 +55,7 @@ header {
             display: inline-block;
             margin: 0 16px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: light;
 
             a {
                 border-bottom: none;

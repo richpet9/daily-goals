@@ -68,6 +68,7 @@ export class Link extends Component {
                 style={this.state.styles.brand}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
+                onClick={this.props.onClickFunc}
             >
                 {this.props.children}
             </a>

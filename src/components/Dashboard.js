@@ -8,7 +8,7 @@ export class Dashboard extends Component {
     render() {
         return (
             <main id="dashboard-container">
-                <Widget type="today" />
+                <Widget type={this.props.currentWidget} />
             </main>
         );
     }

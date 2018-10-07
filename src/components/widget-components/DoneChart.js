@@ -5,14 +5,18 @@ import "../../styles/DoneChart.css";
 
 export class DoneChart extends Component {
     render() {
-        //If the days prop is the special keyword "today"
-        const doneRatio = getDoneRatio(this.props.day); //Get the done ratio
+        let doneRatio = 0;
+
+        //Get the done ratio if this day has goals
+        if (this.props.day.dayGoals) {
+            doneRatio = getDoneRatio(this.props.day);
+        }
 
         //Push this finished chart to the screen
         return (
             <div
                 className={
-                    doneRatio == 1
+                    doneRatio === 1
                         ? "horizontal-chart full"
                         : "horizontal-chart"
                 }

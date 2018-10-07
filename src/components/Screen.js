@@ -7,11 +7,27 @@ import Footer from "./Footer";
 import "../styles/Screen.css";
 
 class Screen extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentWidget: "day"
+        };
+
+        //Bind functions
+        this.handleNavClick = this.handleNavClick.bind(this);
+    }
+
+    handleNavClick(view) {
+        //Set the currentWidget to what is clicked
+        this.setState({ currentWidget: view.toLowerCase() });
+    }
+
     render() {
         return (
             <div className="container">
-                <Header />
-                <Dashboard />
+                <Header onClickFunc={this.handleNavClick} />
+                <Dashboard currentWidget={this.state.currentWidget} />
                 <Footer />
             </div>
         );

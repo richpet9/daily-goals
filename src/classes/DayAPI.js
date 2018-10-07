@@ -27,17 +27,66 @@ export class DayAPI {
      * @param {int} year The numerical year to get (YYYY)
      */
     getDayByDate(num, month, year) {
-        let targetDay = null;
+        let targetDay = null; //The day info we will return
+
+        //For every day in the response, search the year month and num until you find a match
         this.response.forEach(day => {
             if (day.dayYear === year) {
                 if (day.dayMonth === month) {
                     if (day.dayNum === num) {
-                        targetDay = day;
+                        targetDay = day; //Set this data set to the target day
                     }
                 }
             }
         });
+
+        //If the above search failed, return a new day
+        if (targetDay == null) {
+            targetDay = {
+                dayId: this.getToday().dayId + 1,
+                dayName: this.getNextDayName(this.getToday()),
+                dayNum: num,
+                dayMonth: month,
+                dayYear: year,
+                dayGoals: []
+            };
+        }
         return new Day(targetDay);
+    }
+
+    /**
+     * Hopefully this function is temporary. Retrieves the next day's name
+     * @param {Day} day The day to reference for next
+     */
+    getNextDayName(day) {
+        let name;
+        switch (day.dayName) {
+            case "Sunday":
+                name = "Monday";
+                break;
+            case "Monday":
+                name = "Tuesday";
+                break;
+            case "Tuesday":
+                name = "Wednesday";
+                break;
+            case "Wednesday":
+                name = "Thursday";
+                break;
+            case "Thursday":
+                name = "Friday";
+                break;
+            case "Friday":
+                name = "Satruday";
+                break;
+            case "Saturday":
+                name = "Sunday";
+                break;
+            default:
+                name = day.dayName;
+                break;
+        }
+        return name;
     }
 
     /**
@@ -58,6 +107,7 @@ class Day {
         this.dayNum = day.dayNum;
         this.dayMonth = day.dayMonth;
         this.dayYear = day.dayYear;
+        this.dayName = day.dayName;
         this.dayGoals = day.dayGoals;
     }
 
@@ -66,7 +116,20 @@ class Day {
      * @param {int} goalId The ID of the Goal you would like to toggle
      */
     toggleGoal(goalId) {
-        this.dayGoals[goalId].goalDone = !this.dayGoals[goalId].goalDone;
+        this.dayGoals.forEach(goal => {
+            if (goal.goalId === goalId) {
+                goal.goalDone = !goal.goalDone;
+            }
+        });
+        return this;
+    }
+
+    addGoal(goalText, goalDone) {
+        const done = goalDone || false;
+        const text = goalText;
+        const id = this.dayGoals ? this.dayGoals.length + 1 : 0;
+
+        this.dayGoals.push({ goalId: id, goalText: text, goalDone: done });
         return this;
     }
 }

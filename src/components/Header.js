@@ -67,7 +67,10 @@ export class Header extends Component {
                 <Link className="brand" href="#">
                     DailyGoals
                 </Link>
-                <Nav items={["DAY", "WEEK", "MONTH"]} />
+                <Nav
+                    items={["DAY", "WEEK", "MONTH"]}
+                    onClickFunc={this.props.onClickFunc}
+                />
             </header>
         );
     }
@@ -77,7 +80,9 @@ const Nav = props => {
     let items = props.items.map(item => {
         return (
             <NavItem key={item}>
-                <Link>{item}</Link>
+                <Link onClickFunc={props.onClickFunc.bind(this, item)}>
+                    {item}
+                </Link>
             </NavItem>
         );
     });
