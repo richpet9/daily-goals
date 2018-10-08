@@ -1,15 +1,16 @@
 @import "_default.scss";
 
 .horizontal-chart {
-    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 32px;
     width: 100%;
     background: $darkGrey;
-    margin: 10px 0;
-    position: relative;
-    border-radius: 3px;
+    margin: 0;
     overflow: hidden;
     box-shadow: $matShadowLight;
-    transition: box-shadow 500ms $matEaseStd;
+    transition: box-shadow 400ms $matEaseStd;
 
     .chart-bar {
         height: 100%;
@@ -20,7 +21,7 @@
     .chart-bar.green {
         background: $white;
         z-index: 2;
-        transition: width 500ms $matEaseStd;
+        transition: width 400ms $matEaseStd;
     }
 }
 .horizontal-chart.full {

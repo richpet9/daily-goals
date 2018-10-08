@@ -1,4 +1,13 @@
 /**
+ * * For testing purpose the database is being represented
+ * by a JSON file located in src called "userDays.json".
+ * * This file is being fetched in the react app when a client
+ * connects, then sent to this class for easier interaction.
+ * * All instances of writing to the file should be replaced with
+ * Database queries.
+ */
+
+/**
  * DayAPI Class
  * Description: The interface to interact with the Day data
  */
@@ -89,6 +98,27 @@ export class DayAPI {
         return name;
     }
 
+    /*
+    pushDay(day) {
+        fs.readFile("../userDays.json", "utf8", (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                //Read the file as an object
+                let obj = JSON.parse(data);
+
+                //Push the new day into the object
+                obj.push(day);
+
+                //Convert it to json
+                const json = JSON.stringify(obj);
+
+                //Write it back
+                fs.writeFile("../userDays.json", json, "utf8");
+            }
+        });
+    }
+    */
     /**
      * logAPIResponse() will simply log the current value of DayAPI.state.response
      */
@@ -127,7 +157,7 @@ class Day {
     addGoal(goalText, goalDone) {
         const done = goalDone || false;
         const text = goalText;
-        const id = this.dayGoals ? this.dayGoals.length + 1 : 0;
+        const id = this.dayGoals.length ? this.dayGoals.length : 0;
 
         this.dayGoals.push({ goalId: id, goalText: text, goalDone: done });
         return this;

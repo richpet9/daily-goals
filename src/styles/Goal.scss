@@ -2,6 +2,7 @@
 
 .goal {
     background: $darkGrey;
+    position: relative;
     height: 135px;
     width: calc(25% - 32px);
     min-width: 175px;
@@ -13,7 +14,7 @@
     cursor: pointer;
     border-radius: 3px;
     box-shadow: $matShadowLight;
-    transition: all 150ms $matEaseStd;
+    transition: all 100ms $matEaseStd;
 
     .goal-body {
         position: relative;
@@ -34,10 +35,10 @@
 
 .goal.button {
     background: none;
-    color: $darkGrey;
+    color: $lightGrey;
     font-size: 20px;
     box-shadow: none;
-    border: 4px dashed $darkGrey;
+    border: 4px dashed $lightGrey;
     font-weight: normal;
 
     .goal-plus {
@@ -48,6 +49,6 @@
 }
 
 .goal.button:hover {
-    background: $darkGrey;
-    color: $white;
+    border-color: $darkGrey;
+    color: $darkGrey;
 }

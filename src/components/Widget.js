@@ -34,9 +34,12 @@ export class Widget extends Component {
     }
 
     /**
-     * onClickControlIrem() will fire when an item in the control menu is selected
+     * onClickControlItem() will fire when an item in the control menu is selected
      */
     onClickControlItem(item) {
+        //Before we do anything, save the day by pushing to file/database
+        //dayAPI.pushDay(this.state.day); Not yet working. Need a backend.
+
         //Set the state of the control widget to close it and change title
         this.setState({ widgetTitle: item });
 
@@ -116,9 +119,7 @@ export class Widget extends Component {
                     </div>
                 </div>
                 <div className="widget-body">
-                    <div className="widget-section-header">Progress:</div>
                     <DoneChart day={this.state.day} />
-                    <div className="widget-section-header">Goals:</div>
 
                     <GoalField
                         day={this.state.day}

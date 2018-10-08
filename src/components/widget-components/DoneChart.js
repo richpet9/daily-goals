@@ -8,7 +8,7 @@ export class DoneChart extends Component {
         let doneRatio = 0;
 
         //Get the done ratio if this day has goals
-        if (this.props.day.dayGoals) {
+        if (this.props.day.dayGoals.length > 0) {
             doneRatio = getDoneRatio(this.props.day);
         }
 

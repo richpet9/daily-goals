@@ -11,6 +11,7 @@
     .widget-body {
         padding: 8px 16px;
         background: $lighterGrey;
+        position: relative;
     }
 
     .widget-section-header {
@@ -27,6 +28,7 @@
 .widget-controls-container {
     position: relative;
     border-bottom: 1px solid $lightGrey;
+    padding: 8px;
 
     .widget-controls {
         display: block;
@@ -119,4 +121,19 @@
     padding: 8px 16px;
     padding-right: 20px;
     width: 160px;
+}
+
+.slide-enter {
+    margin-left: -200px;
+}
+.slide-enter-active {
+    margin-left: 0px;
+    transition: margin-left 300ms ease-in;
+}
+.slide-exit {
+    margin-left: 0px;
+}
+.slide-exit-active {
+    margin-left: -200pxpx;
+    transition: margin-left 300ms ease-in;
 }

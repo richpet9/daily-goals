@@ -24,7 +24,7 @@ export class GoalField extends Component {
                 return (
                     <Goal.Reg
                         text={goal.goalText} //The text in the goal block
-                        key={goal.goalText} //The Key for React
+                        key={goal.goalId} //The Key for React
                         done={goal.goalDone} //If goal is done, background should be green, else red
                         onClick={this.props.onClickGoal}
                         goalId={goal.goalId}

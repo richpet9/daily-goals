@@ -7,18 +7,28 @@
         "dayYear": 2018,
         "dayGoals": [
             {
-                "goalId": 1,
+                "goalId": 0,
                 "goalText": "Go to work",
                 "goalDone": false
             },
             {
-                "goalId": 2,
+                "goalId": 1,
                 "goalText": "Make breakfast",
                 "goalDone": true
             },
             {
-                "goalId": 3,
+                "goalId": 2,
                 "goalText": "Do laundry",
+                "goalDone": false
+            },
+            {
+                "goalId": 3,
+                "goalText": "Do fun things like listen to music",
+                "goalDone": false
+            },
+            {
+                "goalId": 4,
+                "goalText": "Work on the daily goals app",
                 "goalDone": false
             }
         ]
@@ -36,12 +46,12 @@
                 "goalDone": true
             },
             {
-                "goalId": 2,
+                "goalId": 1,
                 "goalText": "Make breakfast",
                 "goalDone": false
             },
             {
-                "goalId": 4,
+                "goalId": 2,
                 "goalText": "Go to gym",
                 "goalDone": false
             }
@@ -65,12 +75,12 @@
                 "goalDone": false
             },
             {
-                "goalId": 3,
+                "goalId": 2,
                 "goalText": "Do laundry",
                 "goalDone": true
             },
             {
-                "goalId": 4,
+                "goalId": 3,
                 "goalText": "Go to gym",
                 "goalDone": true
             }
