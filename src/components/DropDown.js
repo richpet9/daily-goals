@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+//Stylesheet
+import "../styles/DropDown.css";
+
 /**
  * WidgetControls class creates a widget control + title menu
  */
@@ -8,8 +11,7 @@ class DropDown extends Component {
         super(props);
 
         this.state = {
-            expanded: this.props.expanded,
-            widgetTitle: this.props.title
+            expanded: this.props.expanded
         };
 
         this.toggleExpanded = this.toggleExpanded.bind(this);
@@ -40,9 +42,13 @@ class DropDown extends Component {
     }
 
     render() {
+        //Shortcut a dayDate variable for later use
+        const { day } = this.props;
+
+        //The list of options in the drop down
         const options = this.props.options.map(item => {
             const classes =
-                item === this.props.title
+                item === this.props.currentSet
                     ? "widget-item current"
                     : "widget-item";
             return (
@@ -62,13 +68,7 @@ class DropDown extends Component {
                 onClick={this.toggleExpanded}
                 ref={node => (this.node = node)}
             >
-                <span className="widget-date">
-                    {this.props.day.dayMonth +
-                        "/" +
-                        this.props.day.dayNum +
-                        "/" +
-                        this.props.day.dayYear}
-                </span>
+                <span className="widget-date">{day.formatDateSlash()}</span>
                 <span
                     className={
                         this.state.expanded

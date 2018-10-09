@@ -1,25 +1,25 @@
 import React, { Component } from "react";
-import DoneChart from "./widget-components/DoneChart";
-import DayAPI from "../classes/DayAPI";
-import GoalField from "./widget-components/GoalField";
-import DropDown from "./DropDown";
-
-//Temporarily getting days like so
-import resDays from "../userDays.json";
+import DayAPI from "../../classes/DayAPI";
+import DropDown from "../DropDown";
+import DoneChart from "../widget-components/DoneChart";
+import GoalField from "../widget-components/GoalField";
 
 //Stylesheet
-import "../styles/Widget.css";
+import "../../styles/DisplayDay.css";
+
+//Temporarily getting days like so
+import resDays from "../../userDays.json";
 
 //Initialize the API with some placeholder data
 const dayAPI = new DayAPI(resDays);
 
-export class Widget extends Component {
+export class DisplayDay extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             day: dayAPI.getToday(),
-            widgetTitle: "Today"
+            currentSet: "Today"
         };
 
         this.onClickGoal = this.onClickGoal.bind(this);
@@ -40,11 +40,11 @@ export class Widget extends Component {
         //Before we do anything, save the day by pushing to file/database
         //dayAPI.pushDay(this.state.day); Not yet working. Need a backend.
 
-        //Set the state of the control widget to close it and change title
-        this.setState({ widgetTitle: item });
-
         //Change things about this widget to reflect what was clicked
         const today = dayAPI.getToday();
+
+        //Set the currentSet
+        this.setState({ currentSet: item });
 
         switch (item) {
             case "Today":
@@ -54,20 +54,12 @@ export class Widget extends Component {
                 break;
             case "Yesterday":
                 this.setState({
-                    day: dayAPI.getDayByDate(
-                        today.dayNum - 1,
-                        today.dayMonth,
-                        today.dayYear
-                    )
+                    day: dayAPI.getPreviousDay(today)
                 });
                 break;
             case "Tomorrow":
                 this.setState({
-                    day: dayAPI.getDayByDate(
-                        today.dayNum + 1,
-                        today.dayMonth,
-                        today.dayYear
-                    )
+                    day: dayAPI.getNextDay(today)
                 });
                 break;
             default:
@@ -93,19 +85,16 @@ export class Widget extends Component {
         this.setState({ day: newDay });
     }
 
-    /**
-     * renderToday() will render the current day widget.
-     */
-    renderToday() {
+    render() {
         return (
-            <div className="widget">
+            <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">
                     <div className="widget-controls">
                         <span className="widget-title">
-                            {this.state.day.dayName}
+                            {this.state.day.getDayName()}
                         </span>
                         <DropDown
-                            title={this.state.widgetTitle}
+                            currentSet={this.state.currentSet}
                             options={[
                                 "Today",
                                 "Yesterday",
@@ -130,13 +119,6 @@ export class Widget extends Component {
             </div>
         );
     }
-
-    render() {
-        //Depending on type, render certain widgets
-        if (this.props.type === "day") return this.renderToday();
-        if (this.props.type === "week") return this.renderToday();
-        if (this.props.type === "month") return this.renderToday();
-    }
 }
 
-export default Widget;
+export default DisplayDay;

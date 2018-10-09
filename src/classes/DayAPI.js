@@ -26,37 +26,33 @@ export class DayAPI {
      * getToday() will return the current day
      */
     getToday() {
-        return new Day(this.response[this.response.length - 1]);
+        //TODO: This is temporary because no database is being used
+        const today = new Day(this.response[this.response.length - 1]);
+        return today;
     }
 
     /**
-     * getDayByDate() returns a day found with date.
-     * @param {int} num The numerical day to get (DD)
-     * @param {int} month The numerical month to get (MM)
-     * @param {int} year The numerical year to get (YYYY)
+     * getDayByDate() returns a day found with date, or a new day with the specified date.
+     * @param {Date} date The numerical date to attempt retreive
      */
-    getDayByDate(num, month, year) {
+    getDayByDate(date) {
         let targetDay = null; //The day info we will return
 
         //For every day in the response, search the year month and num until you find a match
         this.response.forEach(day => {
-            if (day.dayYear === year) {
-                if (day.dayMonth === month) {
-                    if (day.dayNum === num) {
-                        targetDay = day; //Set this data set to the target day
-                    }
-                }
+            //Set the date that we will compare to the requested date
+            const dateToCompare = new Date(day.dayDate);
+
+            if (dateToCompare.toDateString() === date.toDateString()) {
+                targetDay = day;
             }
         });
 
-        //If the above search failed, return a new day
+        //If the above search failed, return a new day with the searched for date
         if (targetDay == null) {
             targetDay = {
                 dayId: this.getToday().dayId + 1,
-                dayName: this.getNextDayName(this.getToday()),
-                dayNum: num,
-                dayMonth: month,
-                dayYear: year,
+                dayDate: date,
                 dayGoals: []
             };
         }
@@ -64,38 +60,64 @@ export class DayAPI {
     }
 
     /**
-     * Hopefully this function is temporary. Retrieves the next day's name
-     * @param {Day} day The day to reference for next
+     * getNextDay() will return the next day relative to the input day
+     * @param {Day} day The day to reference
      */
-    getNextDayName(day) {
-        let name;
-        switch (day.dayName) {
-            case "Sunday":
-                name = "Monday";
-                break;
-            case "Monday":
-                name = "Tuesday";
-                break;
-            case "Tuesday":
-                name = "Wednesday";
-                break;
-            case "Wednesday":
-                name = "Thursday";
-                break;
-            case "Thursday":
-                name = "Friday";
-                break;
-            case "Friday":
-                name = "Satruday";
-                break;
-            case "Saturday":
-                name = "Sunday";
-                break;
-            default:
-                name = day.dayName;
-                break;
+    getNextDay(day) {
+        //Get the nextDate/add a day in miliseconds
+        const nextDate = new Date(day.dayDate.getTime() + 86400000);
+        //Return the day located at this date
+        return this.getDayByDate(nextDate);
+    }
+
+    /**
+     * getPreviousDay() will return the Previous day relative to the input day
+     * @param {Day} day The day to reference
+     */
+    getPreviousDay(day) {
+        //Get the PreviousDate/add a day in miliseconds
+        const previousDate = new Date(day.dayDate.getTime() - 86400000);
+        //Return the day located at this date
+        return this.getDayByDate(previousDate);
+    }
+
+    /**
+     * getWeekOf() takes a day and returns an array length 7 of the days within that week.
+     * Weeks start on Mondays.
+     * @param {Day} day The day of which we want to retrieve the week
+     */
+    getWeekOf(day) {
+        //If we aren't given a day
+        if (!day) {
+            console.log("Error- Requested getWeekOf without a day parameter");
+            return;
         }
-        return name;
+
+        //The first day of this week
+        let firstSunday;
+
+        //Determine if this day is a Sunday
+        if (day.getDayName() === "Monday") {
+            //This day is a Sunday
+            firstSunday = day;
+        } else {
+            //Go backwards until we hit the first Sunday
+            let search = true; //Loop controller
+            let dayToCheck = day; //The day to check within the loop
+
+            while (search) {
+                //Assign dayToCheck to the previous day
+                dayToCheck = this.getPreviousDay(dayToCheck);
+
+                //If dayCheck is a sunday
+                if (dayToCheck.getDayName() === "Monday") {
+                    search = false; //Stop the loop
+                    firstSunday = dayToCheck; //Assign first sunday to this day
+                }
+            }
+        }
+
+        return firstSunday.getDayName();
     }
 
     /*
@@ -134,10 +156,7 @@ export class DayAPI {
 class Day {
     constructor(day) {
         this.dayId = day.dayId;
-        this.dayNum = day.dayNum;
-        this.dayMonth = day.dayMonth;
-        this.dayYear = day.dayYear;
-        this.dayName = day.dayName;
+        this.dayDate = new Date(day.dayDate);
         this.dayGoals = day.dayGoals;
     }
 
@@ -154,6 +173,11 @@ class Day {
         return this;
     }
 
+    /**
+     * addGoal() will add a goal to the current day object (not database), and return the day
+     * @param {String} goalText The text of the goal
+     * @param {Boolean} goalDone The boolean done-ness of this goal
+     */
     addGoal(goalText, goalDone) {
         const done = goalDone || false;
         const text = goalText;
@@ -161,6 +185,59 @@ class Day {
 
         this.dayGoals.push({ goalId: id, goalText: text, goalDone: done });
         return this;
+    }
+
+    /**
+     * dayName() returns the this day's name.
+     */
+    getDayName() {
+        //Default value/error value
+        let dayName;
+
+        switch (this.dayDate.getDay()) {
+            case 0:
+                dayName = "Monday";
+                break;
+            case 1:
+                dayName = "Tuesday";
+                break;
+            case 2:
+                dayName = "Wednesday";
+                break;
+            case 3:
+                dayName = "Thursday";
+                break;
+            case 4:
+                dayName = "Friday";
+                break;
+            case 5:
+                dayName = "Saturday";
+                break;
+            case 6:
+                dayName = "Sunday";
+                break;
+            default:
+                dayName =
+                    "Error - dayName() Name cannot be determined: " +
+                    this.dayDate.toString();
+                break;
+        }
+        return dayName;
+    }
+
+    /**
+     * formatDateSlash() will return a string of this day's formatted date
+     */
+    formatDateSlash() {
+        const { dayDate } = this;
+        return (
+            dayDate.getMonth() +
+            1 +
+            "/" +
+            (dayDate.getDate() + 1) +
+            "/" +
+            dayDate.getFullYear()
+        );
     }
 }
 

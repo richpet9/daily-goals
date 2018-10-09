@@ -1,10 +1,12 @@
 @import "../styles/_default.scss";
 
 .footer-container {
-    margin-top: 80px;
+    padding: 32px;
     font-size: 12px;
     text-align: center;
     font-weight: lighter;
+    position: relative;
+    bottom: 0;
 
     .footer-copy {
         display: inline;

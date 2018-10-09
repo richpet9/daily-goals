@@ -1,10 +1,7 @@
 [
     {
         "dayId": 0,
-        "dayName": "Monday",
-        "dayNum": 14,
-        "dayMonth": 11,
-        "dayYear": 2018,
+        "dayDate": "2018-11-14",
         "dayGoals": [
             {
                 "goalId": 0,
@@ -35,10 +32,7 @@
     },
     {
         "dayId": 1,
-        "dayName": "Tuesday",
-        "dayNum": 15,
-        "dayMonth": 11,
-        "dayYear": 2018,
+        "dayDate": "2018-11-15",
         "dayGoals": [
             {
                 "goalId": 0,
@@ -59,10 +53,7 @@
     },
     {
         "dayId": 2,
-        "dayName": "Wednesday",
-        "dayNum": 16,
-        "dayMonth": 11,
-        "dayYear": 2018,
+        "dayDate": "2018-11-16",
         "dayGoals": [
             {
                 "goalId": 0,

@@ -5,12 +5,6 @@ import Goal from "./Goal";
 import "../../styles/GoalField.css";
 
 export class GoalField extends Component {
-    constructor(props) {
-        super(props);
-
-        //Bind functions
-    }
-
     render() {
         let goals = null; //The <Goal /> elements we will return
 

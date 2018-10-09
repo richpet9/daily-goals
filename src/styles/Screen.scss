@@ -8,8 +8,13 @@
 }
 
 html,
-body {
+body,
+#root,
+.container {
     background: $white;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
 }
 
 .bold {

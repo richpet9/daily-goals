@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
-import Footer from "./Footer";
 
 //Stylesheet
 import "../styles/Screen.css";
@@ -11,7 +10,7 @@ class Screen extends Component {
         super(props);
 
         this.state = {
-            currentWidget: "day"
+            currentDisplay: "day"
         };
 
         //Bind functions
@@ -19,16 +18,15 @@ class Screen extends Component {
     }
 
     handleNavClick(view) {
-        //Set the currentWidget to what is clicked
-        this.setState({ currentWidget: view.toLowerCase() });
+        //Set the currentDisplay to what is clicked
+        this.setState({ currentDisplay: view.toLowerCase() });
     }
 
     render() {
         return (
             <div className="container">
                 <Header onClickFunc={this.handleNavClick} />
-                <Dashboard currentWidget={this.state.currentWidget} />
-                <Footer />
+                <Dashboard currentDisplay={this.state.currentDisplay} />
             </div>
         );
     }

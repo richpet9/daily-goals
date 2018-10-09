@@ -1,28 +1,5 @@
 @import "_default.scss";
 
-/*TODO: Make HEADER HIGHER Z-INDEX THAN DROPDOWN */
-
-.widget {
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    text-align: left;
-
-    .widget-body {
-        padding: 8px 16px;
-        background: $lighterGrey;
-        position: relative;
-    }
-
-    .widget-section-header {
-        margin: 32px 0 16px 0;
-    }
-
-    .widget-section-header:first-of-type {
-        margin-top: 8px;
-    }
-}
-
 /* Widget controls */
 
 .widget-controls-container {
@@ -121,19 +98,4 @@
     padding: 8px 16px;
     padding-right: 20px;
     width: 160px;
-}
-
-.slide-enter {
-    margin-left: -200px;
-}
-.slide-enter-active {
-    margin-left: 0px;
-    transition: margin-left 300ms ease-in;
-}
-.slide-exit {
-    margin-left: 0px;
-}
-.slide-exit-active {
-    margin-left: -200pxpx;
-    transition: margin-left 300ms ease-in;
 }
