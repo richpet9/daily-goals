@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DayAPI from "../../classes/DayAPI";
-import DropDown from "../DropDown";
+import DropDown from "../widget-components/DropDown";
 import DoneChart from "../widget-components/DoneChart";
 import GoalField from "../widget-components/GoalField";
 
@@ -38,7 +38,7 @@ export class DisplayDay extends Component {
      */
     onClickControlItem(item) {
         //Before we do anything, save the day by pushing to file/database
-        //dayAPI.pushDay(this.state.day); Not yet working. Need a backend.
+        dayAPI.pushDay(this.state.day);
 
         //Change things about this widget to reflect what was clicked
         const today = dayAPI.getToday();
@@ -108,7 +108,7 @@ export class DisplayDay extends Component {
                     </div>
                 </div>
                 <div className="widget-body">
-                    <DoneChart day={this.state.day} />
+                    <DoneChart day={this.state.day} type="horizontal" />
 
                     <GoalField
                         day={this.state.day}

@@ -8,6 +8,21 @@
     overflow: hidden;
     text-align: center;
 
+    .widget-title {
+        font-weight: lighter;
+        padding: 8px 16px;
+        padding-right: 8px;
+        display: block;
+        text-align: center;
+        font-size: 56px;
+    }
+
+    .widget-controls {
+        display: block;
+        text-align: center;
+        padding-bottom: 16px;
+    }
+
     .widget-body {
         padding: 8px 16px;
         background: $lighterGrey;
@@ -16,6 +31,7 @@
 
     .widget-section-header {
         margin: 32px 0 16px 0;
+        display: inline;
     }
 
     .widget-section-header:first-of-type {

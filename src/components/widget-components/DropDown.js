@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 //Stylesheet
-import "../styles/DropDown.css";
+import "../../styles/DropDown.css";
 
 /**
  * WidgetControls class creates a widget control + title menu
@@ -68,7 +68,7 @@ class DropDown extends Component {
                 onClick={this.toggleExpanded}
                 ref={node => (this.node = node)}
             >
-                <span className="widget-date">{day.formatDateSlash()}</span>
+                <span className="widget-date">{day.getDateFormatted("/")}</span>
                 <span
                     className={
                         this.state.expanded

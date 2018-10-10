@@ -10,7 +10,7 @@ class Screen extends Component {
         super(props);
 
         this.state = {
-            currentDisplay: "day"
+            currentDisplay: "week"
         };
 
         //Bind functions

@@ -27,7 +27,16 @@ export class DayAPI {
      */
     getToday() {
         //TODO: This is temporary because no database is being used
-        const today = new Day(this.response[this.response.length - 1]);
+        //DEBUG: until I go live with a database, "today" will be 11/16/2018
+        const TODAY = new Date("2018-11-16");
+        let today;
+        this.response.forEach(day => {
+            const dateToCompare = new Date(day.dayDate);
+
+            if (dateToCompare.toDateString() === TODAY.toDateString()) {
+                today = new Day(day);
+            }
+        });
         return today;
     }
 
@@ -51,12 +60,15 @@ export class DayAPI {
         //If the above search failed, return a new day with the searched for date
         if (targetDay == null) {
             targetDay = {
-                dayId: this.getToday().dayId + 1,
+                dayId: this.response.length,
                 dayDate: date,
                 dayGoals: []
             };
         }
-        return new Day(targetDay);
+
+        const newDay = new Day(targetDay);
+        this.pushDay(newDay);
+        return newDay;
     }
 
     /**
@@ -94,14 +106,14 @@ export class DayAPI {
         }
 
         //The first day of this week
-        let firstSunday;
+        let firstMonday;
 
-        //Determine if this day is a Sunday
+        //Determine if this day is a Monday
         if (day.getDayName() === "Monday") {
-            //This day is a Sunday
-            firstSunday = day;
+            //This day is a Monday
+            firstMonday = day;
         } else {
-            //Go backwards until we hit the first Sunday
+            //Go backwards until we hit the first Monday
             let search = true; //Loop controller
             let dayToCheck = day; //The day to check within the loop
 
@@ -109,43 +121,74 @@ export class DayAPI {
                 //Assign dayToCheck to the previous day
                 dayToCheck = this.getPreviousDay(dayToCheck);
 
-                //If dayCheck is a sunday
+                //If dayCheck is a Monday
                 if (dayToCheck.getDayName() === "Monday") {
                     search = false; //Stop the loop
-                    firstSunday = dayToCheck; //Assign first sunday to this day
+                    firstMonday = dayToCheck; //Assign first Monday to this day
                 }
             }
         }
 
-        return firstSunday.getDayName();
+        //Now that we have the first Monday, we can go through the next 7 days, add them
+        //to an array, and return that array
+        const week = this.getDayRange(firstMonday, 6);
+
+        return week;
     }
 
-    /*
-    pushDay(day) {
-        fs.readFile("../userDays.json", "utf8", (err, data) => {
-            if (err) {
-                console.log(err);
-            } else {
-                //Read the file as an object
-                let obj = JSON.parse(data);
+    getDayRange(dayOne, dayTwo) {
+        let returnDays = [];
 
-                //Push the new day into the object
-                obj.push(day);
+        //If the second variable is an int instead of a Day
+        if (typeof dayTwo === "number") {
+            const last = dayTwo;
+            let currentDay = dayOne;
 
-                //Convert it to json
-                const json = JSON.stringify(obj);
+            returnDays.push(currentDay);
 
-                //Write it back
-                fs.writeFile("../userDays.json", json, "utf8");
+            for (let id = 0; id < last; id++) {
+                returnDays.push(this.getNextDay(currentDay));
+                currentDay = this.getNextDay(currentDay);
             }
-        });
+
+            return returnDays;
+        } else {
+            return 'THIS HASN"T BEEN IMPLEMENTED YET!!';
+        }
     }
-    */
+
     /**
      * logAPIResponse() will simply log the current value of DayAPI.state.response
      */
     logAPIResponse() {
         console.log(this.response);
+    }
+
+    /**
+     * pushDay() will push a session reference to this day to the API, so it won't create
+     * replicas of the Day in memory.
+     * NOTE: This does not update the database (testing: the JSON file), only the
+     * memory reference to the result.
+     * @param {Day} day The day to push into the API memory
+     */
+    pushDay(day) {
+        //Control variable so we know if the array updated
+        let updated = false;
+        //Loop through the days and update them if this day matches, add it if not
+        for (let index = 0; index < this.response.length; index++) {
+            if (this.response[index].dayId === day.dayId) {
+                //The day already exists, so update the goals
+                this.response[index] = day;
+                return day;
+            } else {
+                //The day does not exist
+                updated = false;
+            }
+        }
+        //If the array did not update, push the day into it
+        if (!updated) this.response.push(day);
+        //Exit by returning the new day reference
+        return day;
     }
 }
 
@@ -226,18 +269,47 @@ class Day {
     }
 
     /**
-     * formatDateSlash() will return a string of this day's formatted date
+     * getDateFormatted() will return a string of this day's formatted date
+     * @param {String} type The format to return: /, -, f
      */
-    formatDateSlash() {
+    getDateFormatted(type) {
+        if (typeof type !== "string") {
+            return "getDateFormatted - Attempted to create formatted date without type";
+        }
+
         const { dayDate } = this;
-        return (
-            dayDate.getMonth() +
-            1 +
-            "/" +
-            (dayDate.getDate() + 1) +
-            "/" +
-            dayDate.getFullYear()
-        );
+        let returnVal;
+
+        switch (type) {
+            case "/":
+                returnVal =
+                    dayDate.getMonth() +
+                    1 +
+                    "/" +
+                    (dayDate.getDate() + 1) +
+                    "/" +
+                    dayDate.getFullYear();
+                break;
+            case "-":
+                returnVal =
+                    dayDate.getMonth() +
+                    1 +
+                    "-" +
+                    (dayDate.getDate() + 1) +
+                    "-" +
+                    dayDate.getFullYear();
+                break;
+            case "f":
+                returnVal =
+                    dayDate.getMonth() +
+                    1 +
+                    "-" +
+                    (dayDate.getDate() + 1) +
+                    "-" +
+                    dayDate.getFullYear();
+                break;
+        }
+        return returnVal;
     }
 }
 
