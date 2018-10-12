@@ -18,8 +18,10 @@ export class DisplayDay extends Component {
         this.onClickGoal = this.onClickGoal.bind(this);
         this.onClickControlItem = this.onClickControlItem.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
+        this.handleDayNav = this.handleDayNav.bind(this);
     }
 
+    //This method will update the goals whenever currentDay changes
     componentWillReceiveProps(newProps) {
         if (newProps.currentDay.dayGoals !== this.state.goals) {
             this.setState({ goals: newProps.currentDay.dayGoals });
@@ -30,8 +32,8 @@ export class DisplayDay extends Component {
      * onClickControlItem() will fire when an item in the control menu is selected
      */
     onClickControlItem(item) {
-        //Get the dayAPI from props
-        const { dayAPI } = this.props;
+        //Get the dayAPI and setDay function from props
+        const { setDay, dayAPI } = this.props;
 
         //Before we do anything, save the day by pushing to file/database
         dayAPI.pushDay(this.props.currentDay);
@@ -42,13 +44,13 @@ export class DisplayDay extends Component {
         //Do something based on the item clicked
         switch (item) {
             case "Today":
-                this.props.setDay(today);
+                setDay(today);
                 break;
             case "Yesterday":
-                this.props.setDay(dayAPI.getPreviousDay(today));
+                setDay(dayAPI.getPreviousDay(today));
                 break;
             case "Tomorrow":
-                this.props.setDay(dayAPI.getNextDay(today));
+                setDay(dayAPI.getNextDay(today));
                 break;
             default:
                 break;
@@ -73,6 +75,21 @@ export class DisplayDay extends Component {
         this.setState({ goals: currentDay.toggleGoal(id).dayGoals });
     }
 
+    /**
+     * handleDayNav fires when a directional arrow is clicked in widget-controls
+     * @param {string} direction The direction to get the consecutive day
+     */
+    handleDayNav(direction) {
+        const { setDay, dayAPI, currentDay } = this.props;
+
+        if (direction === ">") {
+            setDay(dayAPI.getNextDay(currentDay));
+        } else if (direction === "<") {
+            setDay(dayAPI.getPreviousDay(currentDay));
+        }
+    }
+
+    //TODO: Extract widget-controls to it's own component
     render() {
         return (
             <div className="widget" style={this.props.style}>
@@ -80,6 +97,12 @@ export class DisplayDay extends Component {
                     <div className="widget-controls">
                         <span className="widget-title">
                             {this.props.currentDay.getDayName()}
+                        </span>
+                        <span
+                            className="widget-previous"
+                            onClick={this.handleDayNav.bind(this, "<")}
+                        >
+                            &lt;
                         </span>
                         <DropDown
                             options={[
@@ -92,6 +115,13 @@ export class DisplayDay extends Component {
                             expanded={false}
                             day={this.props.currentDay}
                         />
+
+                        <span
+                            className="widget-next"
+                            onClick={this.handleDayNav.bind(this, ">")}
+                        >
+                            &gt;
+                        </span>
                     </div>
                 </div>
                 <div className="widget-body">

@@ -4,21 +4,54 @@ import React, { Component } from "react";
 import "../../styles/DoneChart.css";
 
 export class DoneChart extends Component {
-    render() {
-        let doneRatio = 0;
-        const { day } = this.props;
-        let dayStyle;
+    constructor(props) {
+        super(props);
+        let dayStyle,
+            doneRatio = 0;
 
         //Get the done ratio if this day has goals
-        if (this.props.day.dayGoals.length > 0) {
-            doneRatio = getDoneRatio(this.props.day);
+        if (props.day.dayGoals.length > 0) {
+            doneRatio = getDoneRatio(props.day);
         }
 
+        //TODO: work on removing the dayInfo from this component
+        dayStyle = this.getDayStyle(props, doneRatio);
+
+        //Assign these values to the state
+        this.state = {
+            dayStyle: dayStyle,
+            doneRatio: doneRatio
+        };
+    }
+
+    componentWillReceiveProps(props) {
+        //If the props are identical, return
+        if (props === this.props) return;
+
+        //Create the variables we will need
+        let dayStyle,
+            doneRatio = 0;
+
+        //Get the done ratio if this day has goals
+        if (props.day.dayGoals.length > 0) {
+            doneRatio = getDoneRatio(props.day);
+        }
+
+        dayStyle = this.getDayStyle(props, doneRatio);
+
+        //Assign the new state
+        this.setState({
+            dayStyle: dayStyle,
+            doneRatio: doneRatio
+        });
+    }
+
+    getDayStyle(props, doneRatio) {
         //Determine how to style the day info
-        if (this.props.type === "vertical") {
+        if (props.type === "vertical") {
             if (doneRatio >= 0.75) {
                 //If this bar is 75% to the top
-                dayStyle = {
+                return {
                     //Style for the day name and date
                     dayCont: {
                         top: (1 - doneRatio) * 100 + "%",
@@ -30,7 +63,7 @@ export class DoneChart extends Component {
                     }
                 };
             } else {
-                dayStyle = {
+                return {
                     dayCont: {
                         top: "calc(" + (1 - doneRatio) * 100 + "% - 74px)"
                     },
@@ -40,6 +73,53 @@ export class DoneChart extends Component {
                 };
             }
         }
+    }
+
+    //Render a horizontal chart
+    renderHorizontal() {
+        return (
+            <div
+                className="chart-bar extend"
+                style={{ width: this.doneRatio * 100 + "%" }}
+            />
+        );
+    }
+
+    renderVertical() {
+        const { day } = this.props;
+        const { doneRatio, dayStyle } = this.state;
+
+        return (
+            <div
+                className="chart-container"
+                onClick={this.props.goToDay.bind(this, this.props.day)}
+            >
+                <div className="chart-day-container" style={dayStyle.dayCont}>
+                    <span className="chart-day-percent" style={dayStyle.percs}>
+                        {day.dayDate.getDate() + 1}
+                    </span>
+                    <div className="dayinfo-container">
+                        <span className="chart-day-name">
+                            {day
+                                .getDayName()
+                                .substring(0, 3)
+                                .toUpperCase()}
+                        </span>
+                        <span className="chart-day-num">
+                            {Math.floor(doneRatio * 100).toString() + "%"}
+                        </span>
+                    </div>
+                </div>
+                <div
+                    className="chart-bar extend"
+                    style={{ height: doneRatio * 100 + "%" }}
+                />
+            </div>
+        );
+    }
+
+    render() {
+        const { doneRatio } = this;
 
         //Push this finished chart to the screen
         return (
@@ -50,47 +130,11 @@ export class DoneChart extends Component {
                         : this.props.type + "-chart"
                 }
             >
-                {this.props.type === "horizontal" ? (
-                    //Horizontal chart
-                    <div
-                        className="chart-bar extend"
-                        style={{ width: doneRatio * 100 + "%" }}
-                    />
-                ) : (
-                    //Vertical chart
-                    <div
-                        className="chart-container"
-                        onClick={this.props.goToDay.bind(this, this.props.day)}
-                    >
-                        <div
-                            className="chart-day-container"
-                            style={dayStyle.dayCont}
-                        >
-                            <span
-                                className="chart-day-percent"
-                                style={dayStyle.percs}
-                            >
-                                {day.dayDate.getDate() + 1}
-                            </span>
-                            <div className="dayinfo-container">
-                                <span className="chart-day-name">
-                                    {day
-                                        .getDayName()
-                                        .substring(0, 3)
-                                        .toUpperCase()}
-                                </span>
-                                <span className="chart-day-num">
-                                    {Math.floor(doneRatio * 100).toString() +
-                                        "%"}
-                                </span>
-                            </div>
-                        </div>
-                        <div
-                            className="chart-bar extend"
-                            style={{ height: doneRatio * 100 + "%" }}
-                        />
-                    </div>
-                )}
+                {this.props.type === "horizontal"
+                    ? //Horizontal chart
+                      this.renderHorizontal()
+                    : //Vertical chart
+                      this.renderVertical()}
             </div>
         );
     }

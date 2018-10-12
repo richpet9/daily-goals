@@ -70,41 +70,15 @@ export class DisplayWeek extends Component {
                     </div>
                 </div>
                 <div className="widget-body week">
-                    <DoneChart
-                        day={weekData[0]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[1]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[2]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[3]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[4]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[5]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
-                    <DoneChart
-                        day={weekData[6]}
-                        type="vertical"
-                        goToDay={this.props.goToDay}
-                    />
+                    {weekData.map(data => {
+                        return (
+                            <DoneChart
+                                day={data}
+                                type="vertical"
+                                goToDay={this.props.goToDay}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         );

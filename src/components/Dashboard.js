@@ -10,6 +10,7 @@ export class Dashboard extends Component {
     constructor(props) {
         super(props);
 
+        //These are styles for transitions but I removed those
         this.styles = {
             leftX2: {
                 left: "-200%"
@@ -31,45 +32,34 @@ export class Dashboard extends Component {
 
     render() {
         const { currentDisplay } = this.props;
-        const { styles } = this;
-
-        //Figure out styles
-        let dayStyle, weekStyle, monthStyle;
-
-        //If the day is current
-        if (currentDisplay === "day") {
-            //Day should be main, week should be right, month should be right * 2
-            dayStyle = styles.main;
-            weekStyle = styles.right;
-            monthStyle = styles.rightX2;
-        } else if (currentDisplay === "week") {
-            //Day should be left, week should be main, month should be right
-            dayStyle = styles.left;
-            weekStyle = styles.main;
-            monthStyle = styles.right;
-        } else if (currentDisplay === "month") {
-            //Day should be left * 2, week should be left, month should be main
-            dayStyle = styles.leftX2;
-            weekStyle = styles.left;
-            monthStyle = styles.main;
-        }
 
         return (
             <main id="dashboard-container">
-                <DisplayDay
-                    currentDay={this.props.currentDay}
-                    dayAPI={this.props.dayAPI}
-                    setDay={this.props.setDay}
-                    style={dayStyle}
-                />
-                <DisplayWeek
-                    currentDay={this.props.currentDay}
-                    dayAPI={this.props.dayAPI}
-                    goToDay={this.props.goToDay}
-                    setDay={this.props.setDay}
-                    style={weekStyle}
-                />
-                <DisplayMonth style={monthStyle} />
+                {currentDisplay === "day" && (
+                    <DisplayDay
+                        currentDay={this.props.currentDay}
+                        dayAPI={this.props.dayAPI}
+                        setDay={this.props.setDay}
+                    />
+                )}
+
+                {currentDisplay === "week" && (
+                    <DisplayWeek
+                        currentDay={this.props.currentDay}
+                        dayAPI={this.props.dayAPI}
+                        goToDay={this.props.goToDay}
+                        setDay={this.props.setDay}
+                    />
+                )}
+
+                {currentDisplay === "month" && (
+                    <DisplayMonth
+                        currentDay={this.props.currentDay}
+                        dayAPI={this.props.dayAPI}
+                        goToDay={this.props.goToDay}
+                        setDay={this.props.setDay}
+                    />
+                )}
             </main>
         );
     }

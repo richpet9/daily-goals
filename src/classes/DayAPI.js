@@ -28,12 +28,12 @@ export class DayAPI {
     getToday() {
         //TODO: This is temporary because no database is being used
         //DEBUG: until I go live with a database, "today" will be 11/16/2018
-        const TODAY = new Date("2018-11-16");
+        const TODAY_DATE = new Date("2018-11-16");
         let today;
         this.response.forEach(day => {
             const dateToCompare = new Date(day.dayDate);
 
-            if (dateToCompare.toDateString() === TODAY.toDateString()) {
+            if (dateToCompare.toDateString() === TODAY_DATE.toDateString()) {
                 today = new Day(day);
             }
         });
@@ -117,6 +117,7 @@ export class DayAPI {
             let search = true; //Loop controller
             let dayToCheck = day; //The day to check within the loop
 
+            //Linear search backwards
             while (search) {
                 //Assign dayToCheck to the previous day
                 dayToCheck = this.getPreviousDay(dayToCheck);
@@ -136,6 +137,12 @@ export class DayAPI {
         return week;
     }
 
+    /**
+     * getDayRange() will return an array of days between the first day given, and the numerical range
+     * or second day given (inclusive).
+     * @param {Day} dayOne The first day (inclusive) in the range
+     * @param {Day/Int} dayTwo Either the second day in the range, or an int
+     */
     getDayRange(dayOne, dayTwo) {
         let returnDays = [];
 
@@ -174,7 +181,7 @@ export class DayAPI {
     pushDay(day) {
         //Control variable so we know if the array updated
         let updated = false;
-        //Loop through the days and update them if this day matches, add it if not
+        //(Linear search) Loop through the days and update them if this day matches, add it if not
         for (let index = 0; index < this.response.length; index++) {
             if (this.response[index].dayId === day.dayId) {
                 //The day already exists, so update the goals

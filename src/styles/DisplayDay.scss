@@ -21,6 +21,38 @@
         display: block;
         text-align: center;
         padding-bottom: 16px;
+
+        .widget-previous,
+        .widget-next {
+            display: inline-block;
+            position: relative;
+            font-weight: bolder;
+            line-height: 100%;
+            cursor: pointer;
+            z-index: 10;
+            padding: 8px 16px;
+            transform: scaleX(1);
+            transition: all 300ms $matEaseStd;
+        }
+
+        .widget-previous {
+            margin-right: 8px;
+            transform-origin: right;
+        }
+        .widget-next {
+            margin-left: 8px;
+            transform-origin: left;
+        }
+
+        .widget-previous::selection,
+        .widget-next::selection {
+            background: none;
+        }
+
+        .widget-previous:hover,
+        .widget-next:hover {
+            transform: scaleX(1.2);
+        }
     }
 
     .widget-body {

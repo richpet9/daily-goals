@@ -15,8 +15,8 @@ class Screen extends Component {
         super(props);
 
         this.state = {
-            currentDisplay: "week",
-            currentDay: dayAPI.getToday()
+            currentDisplay: "day", //Default dispaly
+            currentDay: dayAPI.getToday() //Default day
         };
 
         //Bind functions
