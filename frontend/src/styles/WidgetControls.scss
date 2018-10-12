@@ -1,26 +1,19 @@
-@import "_default.scss";
-
-/*TODO: Make HEADER HIGHER Z-INDEX THAN DROPDOWN */
+@import "./default.scss";
 
 .widget {
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    text-align: center;
-
-    .widget-title {
-        font-weight: lighter;
-        padding: 8px 16px;
-        padding-right: 8px;
-        display: block;
-        text-align: center;
-        font-size: 56px;
-    }
-
     .widget-controls {
         display: block;
         text-align: center;
         padding-bottom: 16px;
+
+        .widget-title {
+            font-weight: lighter;
+            padding: 8px 16px;
+            padding-right: 8px;
+            display: block;
+            text-align: center;
+            font-size: 56px;
+        }
 
         .widget-previous,
         .widget-next {
@@ -53,20 +46,5 @@
         .widget-next:hover {
             transform: scaleX(1.2);
         }
-    }
-
-    .widget-body {
-        padding: 8px 16px;
-        background: $lighterGrey;
-        position: relative;
-    }
-
-    .widget-section-header {
-        margin: 32px 0 16px 0;
-        display: inline;
-    }
-
-    .widget-section-header:first-of-type {
-        margin-top: 8px;
     }
 }

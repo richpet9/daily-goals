@@ -12,14 +12,16 @@
  * Description: The interface to interact with the Day data
  */
 export class DayAPI {
-    response = {}; //This is the response from the constructor, will be replaced with database response
+    response = []; //This is the response from the constructor
 
     /**
      * Constructor will take in JSON data in the structure outlined in userDays.json
      * @param {JSON} daysJSON JSON data of the days
      */
     constructor(daysJSON) {
-        this.response = daysJSON;
+        daysJSON.forEach(day => {
+            this.response.push(new Day(day));
+        });
     }
 
     /**
@@ -57,18 +59,18 @@ export class DayAPI {
             }
         });
 
-        //If the above search failed, return a new day with the searched for date
+        //If the above search failed, return a new day with the searched for date but do not create a reference
         if (targetDay == null) {
             targetDay = {
                 dayId: this.response.length,
                 dayDate: date,
                 dayGoals: []
             };
+            const newDay = new Day(targetDay);
+            return newDay;
         }
 
-        const newDay = new Day(targetDay);
-        this.pushDay(newDay);
-        return newDay;
+        return targetDay;
     }
 
     /**
@@ -139,7 +141,7 @@ export class DayAPI {
 
     /**
      * getDayRange() will return an array of days between the first day given, and the numerical range
-     * or second day given (inclusive).
+     * or second day given (exclusive).
      * @param {Day} dayOne The first day (inclusive) in the range
      * @param {Day/Int} dayTwo Either the second day in the range, or an int
      */
@@ -175,7 +177,8 @@ export class DayAPI {
      * pushDay() will push a session reference to this day to the API, so it won't create
      * replicas of the Day in memory.
      * NOTE: This does not update the database (testing: the JSON file), only the
-     * memory reference to the result.
+     * memory reference to the result. A future method will sync this file with the database
+     * (THIS IS A REALLY BAD WAY OF DOING THIS, IMPLEMENT THE DATABASE AFTER MONTHS)
      * @param {Day} day The day to push into the API memory
      */
     pushDay(day) {
@@ -217,7 +220,6 @@ class Day {
     toggleGoal(goalId) {
         this.dayGoals.forEach(goal => {
             if (goal.goalId === goalId) {
-                console.log("hi");
                 goal.goalDone = !goal.goalDone;
             }
         });

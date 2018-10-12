@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DropDown from "../widget-components/DropDown";
+import WidgetControls from "../widget-components/WidgetControls";
 import DoneChart from "../widget-components/DoneChart";
 import GoalField from "../widget-components/GoalField";
 
@@ -15,9 +15,10 @@ export class DisplayDay extends Component {
             goals: this.props.currentDay.dayGoals
         };
 
+        //Bind Functions
         this.onClickGoal = this.onClickGoal.bind(this);
-        this.onClickControlItem = this.onClickControlItem.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
+        this.onClickControlItem = this.onClickControlItem.bind(this);
         this.handleDayNav = this.handleDayNav.bind(this);
     }
 
@@ -89,40 +90,19 @@ export class DisplayDay extends Component {
         }
     }
 
-    //TODO: Extract widget-controls to it's own component
+    //TODO: Extract widget-controls to it's own component "Widget" with type="day" DONE.
+    //AFTER DOING THAT: Making animations between the widgets should be much easier
+    //QUESTION FOR MYSELF: Should DisplayDay's Widgets be a different component than DisplayWeek's?
     render() {
         return (
             <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">
-                    <div className="widget-controls">
-                        <span className="widget-title">
-                            {this.props.currentDay.getDayName()}
-                        </span>
-                        <span
-                            className="widget-previous"
-                            onClick={this.handleDayNav.bind(this, "<")}
-                        >
-                            &lt;
-                        </span>
-                        <DropDown
-                            options={[
-                                "Today",
-                                "Yesterday",
-                                "Tomorrow",
-                                "CALENDAR"
-                            ]}
-                            function={this.onClickControlItem}
-                            expanded={false}
-                            day={this.props.currentDay}
-                        />
-
-                        <span
-                            className="widget-next"
-                            onClick={this.handleDayNav.bind(this, ">")}
-                        >
-                            &gt;
-                        </span>
-                    </div>
+                    <WidgetControls
+                        type={"day"}
+                        currentDay={this.props.currentDay}
+                        handleDayNav={this.handleDayNav}
+                        onClickControlItem={this.onClickControlItem}
+                    />
                 </div>
                 <div className="widget-body">
                     <DoneChart day={this.props.currentDay} type="horizontal" />

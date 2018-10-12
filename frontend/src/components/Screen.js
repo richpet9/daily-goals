@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
+import Debug from "./Debug";
 
 //Stylesheet
 import "../styles/Screen.css";
@@ -23,13 +24,23 @@ class Screen extends Component {
         this.handleNavClick = this.handleNavClick.bind(this);
         this.goToDay = this.goToDay.bind(this);
         this.setDay = this.setDay.bind(this);
+
+        //Bind debug methods
+        this.logCurrentDay = this.logCurrentDay.bind(this);
     }
 
     handleNavClick(view) {
+        if (this.state.currentDay.dayGoals !== 0) {
+            dayAPI.pushDay(this.state.currentDay);
+        }
         //Set the currentDisplay to what is clicked
         this.setState({ currentDisplay: view.toLowerCase() });
     }
 
+    /**
+     * Note: This method will change the view to day AND change the current day
+     *
+     */
     goToDay(day) {
         this.setState({
             currentDisplay: "day",
@@ -37,14 +48,24 @@ class Screen extends Component {
         });
     }
 
-    //EUREKA:
-    //Create a changeDay() method that simply changes the day to any
-    //specified day. Pass this method to all children. The child
-    //elements will have their own methods for determining
-    //which day to change to!! this is genius!!
-    //Also, get DayAPI and ResData out of every other class.
+    /**
+     * Note: This method is ONLY change the current day set
+     *
+     */
     setDay(day) {
-        this.setState({ currentDay: day });
+        const lastDay = this.state.currentDay;
+        const newDay = day;
+
+        this.setState({ currentDay: newDay });
+    }
+
+    //DEBUG
+    logAPI() {
+        dayAPI.logAPIResponse();
+    }
+
+    logCurrentDay() {
+        console.log(this.state.currentDay);
     }
 
     render() {
@@ -57,6 +78,10 @@ class Screen extends Component {
                     goToDay={this.goToDay}
                     dayAPI={dayAPI}
                     setDay={this.setDay}
+                />
+                <Debug
+                    logAPI={this.logAPI}
+                    logCurrentDay={this.logCurrentDay}
                 />
             </div>
         );
