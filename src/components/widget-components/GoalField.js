@@ -8,20 +8,20 @@ export class GoalField extends Component {
     render() {
         let goals = null; //The <Goal /> elements we will return
 
-        if (this.props.day.dayGoals === null) {
+        if (this.props.goals === null) {
             //there are not goals
             goals = "";
         } else {
             //there are goals
-            const goalStrings = this.props.day.dayGoals;
-            goals = goalStrings.map(goal => {
+            const goalInfo = this.props.goals;
+            goals = goalInfo.map(goal => {
                 return (
                     <Goal.Reg
                         text={goal.goalText} //The text in the goal block
                         key={goal.goalId} //The Key for React
-                        done={goal.goalDone} //If goal is done, background should be green, else red
-                        onClick={this.props.onClickGoal}
+                        done={goal.goalDone}
                         goalId={goal.goalId}
+                        onClick={this.props.onClickGoal}
                     />
                 );
             });

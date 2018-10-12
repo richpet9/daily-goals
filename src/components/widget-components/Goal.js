@@ -21,7 +21,7 @@ export const Goal = {
             <div className="goal button">
                 <div
                     className="goal-plus"
-                    onClick={props.onClick.bind(this, "Hi!")}
+                    onClick={props.onClick.bind(this, "Hi!", false)}
                 >
                     +
                 </div>

@@ -51,12 +51,17 @@ export class DoneChart extends Component {
                 }
             >
                 {this.props.type === "horizontal" ? (
+                    //Horizontal chart
                     <div
                         className="chart-bar extend"
                         style={{ width: doneRatio * 100 + "%" }}
                     />
                 ) : (
-                    <div className="chart-container">
+                    //Vertical chart
+                    <div
+                        className="chart-container"
+                        onClick={this.props.goToDay.bind(this, this.props.day)}
+                    >
                         <div
                             className="chart-day-container"
                             style={dayStyle.dayCont}

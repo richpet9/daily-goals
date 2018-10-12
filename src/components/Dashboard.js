@@ -7,26 +7,30 @@ import DisplayMonth from "./widget-types/DisplayMonth";
 import "../styles/Dashboard.css";
 
 export class Dashboard extends Component {
-    styles = {
-        leftX2: {
-            left: "-200%"
-        },
-        left: {
-            left: "-100%"
-        },
-        main: {
-            left: "0%"
-        },
-        right: {
-            left: "100%"
-        },
-        rightX2: {
-            left: "200%"
-        }
-    };
+    constructor(props) {
+        super(props);
+
+        this.styles = {
+            leftX2: {
+                left: "-200%"
+            },
+            left: {
+                left: "-100%"
+            },
+            main: {
+                left: "0%"
+            },
+            right: {
+                left: "100%"
+            },
+            rightX2: {
+                left: "200%"
+            }
+        };
+    }
 
     render() {
-        const currentDisplay = this.props.currentDisplay;
+        const { currentDisplay } = this.props;
         const { styles } = this;
 
         //Figure out styles
@@ -52,8 +56,19 @@ export class Dashboard extends Component {
 
         return (
             <main id="dashboard-container">
-                <DisplayDay style={dayStyle} />
-                <DisplayWeek style={weekStyle} />
+                <DisplayDay
+                    currentDay={this.props.currentDay}
+                    dayAPI={this.props.dayAPI}
+                    setDay={this.props.setDay}
+                    style={dayStyle}
+                />
+                <DisplayWeek
+                    currentDay={this.props.currentDay}
+                    dayAPI={this.props.dayAPI}
+                    goToDay={this.props.goToDay}
+                    setDay={this.props.setDay}
+                    style={weekStyle}
+                />
                 <DisplayMonth style={monthStyle} />
             </main>
         );

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DayAPI from "../../classes/DayAPI";
 import DropDown from "../widget-components/DropDown";
 import DoneChart from "../widget-components/DoneChart";
 import GoalField from "../widget-components/GoalField";
@@ -7,60 +6,49 @@ import GoalField from "../widget-components/GoalField";
 //Stylesheet
 import "../../styles/DisplayDay.css";
 
-//Temporarily getting days like so
-import resDays from "../../userDays.json";
-
-//Initialize the API with some placeholder data
-const dayAPI = new DayAPI(resDays);
-
 export class DisplayDay extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            day: dayAPI.getToday(),
-            currentSet: "Today"
+            //This variable will control when the goals should update
+            goals: this.props.currentDay.dayGoals
         };
 
         this.onClickGoal = this.onClickGoal.bind(this);
         this.onClickControlItem = this.onClickControlItem.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
     }
-    /**
-     * onClickGoal() will fire when a goal block is clicked, toggling it's done state
-     */
-    onClickGoal(id) {
-        this.setState({ day: this.state.day.toggleGoal(id) });
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.currentDay.dayGoals !== this.state.goals) {
+            this.setState({ goals: newProps.currentDay.dayGoals });
+        }
     }
 
     /**
      * onClickControlItem() will fire when an item in the control menu is selected
      */
     onClickControlItem(item) {
-        //Before we do anything, save the day by pushing to file/database
-        dayAPI.pushDay(this.state.day);
+        //Get the dayAPI from props
+        const { dayAPI } = this.props;
 
-        //Change things about this widget to reflect what was clicked
+        //Before we do anything, save the day by pushing to file/database
+        dayAPI.pushDay(this.props.currentDay);
+
+        //Get Today's Day
         const today = dayAPI.getToday();
 
-        //Set the currentSet
-        this.setState({ currentSet: item });
-
+        //Do something based on the item clicked
         switch (item) {
             case "Today":
-                this.setState({
-                    day: today
-                });
+                this.props.setDay(today);
                 break;
             case "Yesterday":
-                this.setState({
-                    day: dayAPI.getPreviousDay(today)
-                });
+                this.props.setDay(dayAPI.getPreviousDay(today));
                 break;
             case "Tomorrow":
-                this.setState({
-                    day: dayAPI.getNextDay(today)
-                });
+                this.props.setDay(dayAPI.getNextDay(today));
                 break;
             default:
                 break;
@@ -71,18 +59,18 @@ export class DisplayDay extends Component {
      * onClickAdd() will fire when the "add goal" box is clicked
      */
     onClickAdd(goalText, goalDone) {
-        this.sendNewGoals(goalText);
+        const { currentDay } = this.props;
+        this.setState({
+            goals: currentDay.addGoal(goalText, goalDone).dayGoals
+        });
     }
 
     /**
-     * sendNewGoals() will update the current day object with new goals
-     * @param {String} goalText The text for the goal
-     * @param {Boolean} goalDone If the goal is done or not
+     * onClickGoal() will fire when a goal block is clicked, toggling it's done state
      */
-    sendNewGoals(goalText, goalDone) {
-        goalDone = goalDone || false;
-        const newDay = this.state.day.addGoal(goalText, goalDone);
-        this.setState({ day: newDay });
+    onClickGoal(id) {
+        const { currentDay } = this.props;
+        this.setState({ goals: currentDay.toggleGoal(id).dayGoals });
     }
 
     render() {
@@ -91,10 +79,9 @@ export class DisplayDay extends Component {
                 <div className="widget-controls-container">
                     <div className="widget-controls">
                         <span className="widget-title">
-                            {this.state.day.getDayName()}
+                            {this.props.currentDay.getDayName()}
                         </span>
                         <DropDown
-                            currentSet={this.state.currentSet}
                             options={[
                                 "Today",
                                 "Yesterday",
@@ -103,15 +90,15 @@ export class DisplayDay extends Component {
                             ]}
                             function={this.onClickControlItem}
                             expanded={false}
-                            day={this.state.day}
+                            day={this.props.currentDay}
                         />
                     </div>
                 </div>
                 <div className="widget-body">
-                    <DoneChart day={this.state.day} type="horizontal" />
+                    <DoneChart day={this.props.currentDay} type="horizontal" />
 
                     <GoalField
-                        day={this.state.day}
+                        goals={this.state.goals}
                         onClickGoal={this.onClickGoal}
                         onClickAdd={this.onClickAdd}
                     />

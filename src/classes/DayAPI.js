@@ -210,6 +210,7 @@ class Day {
     toggleGoal(goalId) {
         this.dayGoals.forEach(goal => {
             if (goal.goalId === goalId) {
+                console.log("hi");
                 goal.goalDone = !goal.goalDone;
             }
         });

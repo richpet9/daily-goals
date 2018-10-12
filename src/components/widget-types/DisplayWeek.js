@@ -1,35 +1,54 @@
 import React, { Component } from "react";
-import DayAPI from "../../classes/DayAPI";
 import DoneChart from "../widget-components/DoneChart";
 import DropDown from "../widget-components/DropDown";
 
-import resDays from "../../userDays.json";
-
 //Stylesheet
 import "../../styles/DisplayWeek.css";
-
-//Initialize the API with some placeholder data
-const dayAPI = new DayAPI(resDays);
 
 export class DisplayWeek extends Component {
     constructor(props) {
         super(props);
 
-        const today = dayAPI.getToday();
-
-        this.state = {
-            day: today
-        };
-
         this.onClickControlItem = this.onClickControlItem.bind(this);
     }
 
-    onClickControlItem() {
-        this.setState({ day: dayAPI.getDayByDate(new Date("11/21/2018")) });
+    onClickControlItem(item) {
+        //Get the dayAPI from props
+        const { dayAPI } = this.props;
+
+        //Get Today's Day
+        const today = this.props.dayAPI.getToday();
+        const sevenDaysInMs = 86400000 * 7;
+
+        //Do something based on the item clicked
+        switch (item) {
+            case "This Week":
+                //Set day to today
+                this.props.setDay(today);
+                break;
+            case "Last Week":
+                //Set day to seven days ago
+                this.props.setDay(
+                    dayAPI.getDayByDate(
+                        new Date(today.dayDate.getTime() - sevenDaysInMs)
+                    )
+                );
+                break;
+            case "Next Week":
+                //Set day to seven days from now
+                this.props.setDay(
+                    dayAPI.getDayByDate(
+                        new Date(today.dayDate.getTime() + sevenDaysInMs)
+                    )
+                );
+                break;
+            default:
+                break;
+        }
     }
 
     getWeekData(day) {
-        const weekData = dayAPI.getWeekOf(day);
+        const weekData = this.props.dayAPI.getWeekOf(day);
         return (
             <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">
@@ -38,35 +57,61 @@ export class DisplayWeek extends Component {
                             Week of {weekData[0].getDateFormatted("/")}
                         </div>
                         <DropDown
-                            currentSet={this.state.currentSet}
                             options={[
-                                "Today",
-                                "Yesterday",
-                                "Tomorrow",
+                                "This Week",
+                                "Last Week",
+                                "Next Week",
                                 "CALENDAR"
                             ]}
                             function={this.onClickControlItem}
                             expanded={false}
-                            day={this.state.day}
+                            day={this.props.currentDay}
                         />
                     </div>
                 </div>
                 <div className="widget-body week">
-                    <DoneChart day={weekData[0]} type="vertical" />
-                    <DoneChart day={weekData[1]} type="vertical" />
-                    <DoneChart day={weekData[2]} type="vertical" />
-                    <DoneChart day={weekData[3]} type="vertical" />
-                    <DoneChart day={weekData[4]} type="vertical" />
-                    <DoneChart day={weekData[5]} type="vertical" />
-                    <DoneChart day={weekData[6]} type="vertical" />
+                    <DoneChart
+                        day={weekData[0]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[1]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[2]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[3]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[4]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[5]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
+                    <DoneChart
+                        day={weekData[6]}
+                        type="vertical"
+                        goToDay={this.props.goToDay}
+                    />
                 </div>
             </div>
         );
     }
 
     render() {
-        const { day } = this.state;
-        return this.getWeekData(day);
+        return this.getWeekData(this.props.currentDay);
     }
 }
 
