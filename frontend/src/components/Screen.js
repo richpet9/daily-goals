@@ -2,22 +2,20 @@ import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
 import Debug from "./Debug";
+import DayAPI from "../classes/DayAPI";
 
 //Stylesheet
 import "../styles/Screen.css";
 
-//temp
-import resDays from "../userDays.json";
-import DayAPI from "../classes/DayAPI";
-const dayAPI = new DayAPI(resDays);
+const dayAPI = new DayAPI();
 
 class Screen extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentDisplay: "day", //Default dispaly
-            currentDay: dayAPI.getToday() //Default day
+            currentDay: null,
+            currentDisplay: "day" //Default dispaly\
         };
 
         //Bind functions
@@ -26,11 +24,21 @@ class Screen extends Component {
         this.setDay = this.setDay.bind(this);
 
         //Bind debug methods
+        this.logAPI = this.logAPI.bind(this);
         this.logCurrentDay = this.logCurrentDay.bind(this);
     }
 
+    componentDidMount() {
+        fetch("/api/days")
+            .then(res => res.json())
+            .then(response => {
+                dayAPI.setResDays(response);
+                this.setDay(dayAPI.getToday());
+            });
+    }
+
     handleNavClick(view) {
-        if (this.state.currentDay.dayGoals !== 0) {
+        if (this.state.currentDay.dayGoals.length !== 0) {
             dayAPI.pushDay(this.state.currentDay);
         }
         //Set the currentDisplay to what is clicked
@@ -53,10 +61,7 @@ class Screen extends Component {
      *
      */
     setDay(day) {
-        const lastDay = this.state.currentDay;
-        const newDay = day;
-
-        this.setState({ currentDay: newDay });
+        this.setState({ currentDay: day });
     }
 
     //DEBUG
@@ -68,8 +73,22 @@ class Screen extends Component {
         console.log(this.state.currentDay);
     }
 
+    setDbValues() {
+        const response = dayAPI.getResDays();
+
+        fetch("/api/days/post", {
+            method: "post",
+            body: response,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        })
+            .then(res => res.json())
+            .then(response => console.log(response));
+    }
+
     render() {
-        return (
+        return this.state.currentDay ? (
             <div className="container">
                 <Header onClickFunc={this.handleNavClick} />
                 <Dashboard
@@ -79,6 +98,14 @@ class Screen extends Component {
                     dayAPI={dayAPI}
                     setDay={this.setDay}
                 />
+                <Debug
+                    logAPI={this.logAPI}
+                    logCurrentDay={this.logCurrentDay}
+                />
+            </div>
+        ) : (
+            <div className="container">
+                Could not get current day from database.
                 <Debug
                     logAPI={this.logAPI}
                     logCurrentDay={this.logCurrentDay}

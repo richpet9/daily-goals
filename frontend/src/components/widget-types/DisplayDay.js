@@ -83,6 +83,10 @@ export class DisplayDay extends Component {
     handleDayNav(direction) {
         const { setDay, dayAPI, currentDay } = this.props;
 
+        if (currentDay.dayGoals.length !== 0) {
+            this.props.dayAPI.pushDay(currentDay);
+        }
+
         if (direction === ">") {
             setDay(dayAPI.getNextDay(currentDay));
         } else if (direction === "<") {

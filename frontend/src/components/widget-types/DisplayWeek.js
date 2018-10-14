@@ -92,7 +92,7 @@ export class DisplayWeek extends Component {
                                 day={data}
                                 type="vertical"
                                 goToDay={this.props.goToDay}
-                                key={Math.random().toPrecision(3)}
+                                key={weekData.indexOf(data)}
                             />
                         );
                     })}

@@ -80,11 +80,13 @@ export class DoneChart extends Component {
         return (
             <div
                 className="chart-bar extend"
-                style={{ width: this.doneRatio * 100 + "%" }}
+                style={{ width: this.state.doneRatio * 100 + "%" }}
             />
         );
     }
 
+    //Render vertical chart
+    //TODO: Remove day info from this component
     renderVertical() {
         const { day } = this.props;
         const { doneRatio, dayStyle } = this.state;

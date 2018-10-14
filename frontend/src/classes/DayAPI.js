@@ -8,20 +8,27 @@
  */
 
 /**
- * DayAPI Class
+ * DayAPI Class Singleton
  * Description: The interface to interact with the Day data
  */
 export class DayAPI {
     response = []; //This is the response from the constructor
 
     /**
-     * Constructor will take in JSON data in the structure outlined in userDays.json
-     * @param {JSON} daysJSON JSON data of the days
+     * setResDays() sets the response array in DayAPI
+     * @param {JSON} response The response from the database
      */
-    constructor(daysJSON) {
-        daysJSON.forEach(day => {
+    setResDays(response) {
+        response.forEach(day => {
             this.response.push(new Day(day));
         });
+    }
+
+    /**
+     * getResDays() gets the response array in DayAPI
+     */
+    getResDays() {
+        return this.response;
     }
 
     /**
@@ -249,25 +256,25 @@ class Day {
 
         switch (this.dayDate.getDay()) {
             case 0:
-                dayName = "Monday";
+                dayName = "Sunday";
                 break;
             case 1:
-                dayName = "Tuesday";
+                dayName = "Monday";
                 break;
             case 2:
-                dayName = "Wednesday";
+                dayName = "Tuesday";
                 break;
             case 3:
-                dayName = "Thursday";
+                dayName = "Wednesday";
                 break;
             case 4:
-                dayName = "Friday";
+                dayName = "Thursday";
                 break;
             case 5:
-                dayName = "Saturday";
+                dayName = "Friday";
                 break;
             case 6:
-                dayName = "Sunday";
+                dayName = "Saturday";
                 break;
             default:
                 dayName =
@@ -296,7 +303,7 @@ class Day {
                     dayDate.getMonth() +
                     1 +
                     "/" +
-                    (dayDate.getDate() + 1) +
+                    dayDate.getDate() +
                     "/" +
                     dayDate.getFullYear();
                 break;
@@ -305,17 +312,19 @@ class Day {
                     dayDate.getMonth() +
                     1 +
                     "-" +
-                    (dayDate.getDate() + 1) +
+                    dayDate.getDate() +
                     "-" +
                     dayDate.getFullYear();
                 break;
             case "f":
                 returnVal =
+                    this.getDayName() +
+                    ", " +
                     dayDate.getMonth() +
                     1 +
-                    "-" +
-                    (dayDate.getDate() + 1) +
-                    "-" +
+                    ", " +
+                    dayDate.getDate() +
+                    ", " +
                     dayDate.getFullYear();
                 break;
         }
