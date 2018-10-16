@@ -16,4 +16,4 @@ A web app for tracking your everyday goals
 
 ## Database Info
 
-This app uses a MongoDB database, with data stored in /data of the root. This data folder is not included in this repository.
+This app uses a MongoDB database, with data stored in `/data` of the root. This data folder is not included in this repository.
