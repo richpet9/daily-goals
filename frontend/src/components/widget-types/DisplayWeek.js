@@ -74,6 +74,7 @@ export class DisplayWeek extends Component {
 
     getWeekData(day) {
         const weekData = this.props.dayAPI.getWeekOf(day);
+        console.log(weekData);
         return (
             <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">

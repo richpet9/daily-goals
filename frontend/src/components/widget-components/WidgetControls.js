@@ -6,14 +6,26 @@ import "../../styles/WidgetControls.css";
 
 export class WidgetControls extends Component {
     render() {
+        let title;
+        switch (this.props.type) {
+            case "day":
+                title = this.props.currentDay.getDayName();
+                break;
+            case "week":
+                title =
+                    "Week of " + this.props.weekData[0].getDateFormatted("/");
+                break;
+            case "month":
+                title = this.props.currentDay.getMonthName();
+                break;
+            default:
+                title = this.props.currentDay.getDayName();
+                break;
+        }
+
         return (
             <div className="widget-controls">
-                <span className="widget-title">
-                    {this.props.type === "day"
-                        ? this.props.currentDay.getDayName()
-                        : "Week of " +
-                          this.props.weekData[0].getDateFormatted("/")}
-                </span>
+                <span className="widget-title">{title}</span>
                 <span
                     className="widget-previous"
                     onClick={this.props.handleDayNav.bind(this, "<")}

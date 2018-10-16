@@ -1,0 +1,37 @@
+@import "./default.scss";
+
+.chart-day-container {
+    position: absolute;
+    z-index: 5;
+    color: $darkGrey;
+    width: 100%;
+    padding: 8px;
+    line-height: 100%;
+    text-align: left;
+    transition: all 400ms $matEaseStd;
+
+    .chart-day-name {
+        display: block;
+        font-size: 22px;
+        font-weight: bolder;
+        line-height: 110%;
+    }
+
+    .chart-day-num {
+        display: block;
+        font-size: 16px;
+        font-weight: lighter;
+    }
+
+    .chart-day-percent {
+        display: inline-block;
+        font-weight: bolder;
+        font-size: 46px;
+        line-height: 100%;
+        margin-right: 8px;
+    }
+
+    .dayinfo-container {
+        display: inline-block;
+    }
+}

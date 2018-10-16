@@ -1,15 +1,19 @@
 /**
- * * For testing purpose the database is being represented
- * by a JSON file located in src called "userDays.json".
- * * This file is being fetched in the react app when a client
- * connects, then sent to this class for easier interaction.
- * * All instances of writing to the file should be replaced with
- * Database queries.
- */
-
-/**
  * DayAPI Class Singleton
- * Description: The interface to interact with the Day data
+ * Description: The interface to interact with the Day data recieved from MongoDB.
+ * Before this API is functional, response must be set with setResDays(). setResDays()
+ * expects a JSON object structured:
+ *  {
+ *      _id: int,
+ *      dayDate: Date,
+ *      dayGoals: [
+ *          {
+ *              goalId: Int,
+ *              goalText: String,
+ *              goalDone: Bool
+ *          }
+ *      ]
+ *  }
  */
 export class DayAPI {
     response = []; //This is the response from the constructor
@@ -35,17 +39,24 @@ export class DayAPI {
      * getToday() will return the current day
      */
     getToday() {
-        //TODO: This is temporary because no database is being used
-        //DEBUG: until I go live with a database, "today" will be 11/16/2018
-        const TODAY_DATE = new Date("2018-11-16");
+        const TODAY_DATE = new Date();
         let today;
+
+        //For every day in the database response
         this.response.forEach(day => {
             const dateToCompare = new Date(day.dayDate);
 
             if (dateToCompare.toDateString() === TODAY_DATE.toDateString()) {
-                today = new Day(day);
+                //Today was found within the database response
+                today = day;
             }
         });
+
+        if (!today) {
+            //Today is not stored in the database, so just get a new day!
+            today = this.getDayByDate(TODAY_DATE);
+        }
+
         return today;
     }
 
@@ -69,7 +80,7 @@ export class DayAPI {
         //If the above search failed, return a new day with the searched for date but do not create a reference
         if (targetDay == null) {
             targetDay = {
-                dayId: this.response.length,
+                _id: this.response.length,
                 dayDate: date,
                 dayGoals: []
             };
@@ -141,14 +152,62 @@ export class DayAPI {
 
         //Now that we have the first Monday, we can go through the next 7 days, add them
         //to an array, and return that array
-        const week = this.getDayRange(firstMonday, 6);
+        const week = this.getDayRange(firstMonday, 7);
 
         return week;
     }
 
     /**
+     * getMonthOf() takes a day and returns an array length 7 of the days within that month.
+     * months start on Mondays.
+     * @param {Day} day The day of which we want to retrieve the month
+     */
+    getMonthOf(day) {
+        //If we aren't given a day
+        if (!day) {
+            console.log("Error- Requested getMonthOf without a day parameter");
+            return;
+        }
+
+        //The first day of this month
+        let firstDay;
+
+        //Determine if this day is a first
+        if (day.dayDate.getUTCDate() === 1) {
+            //This day is a first
+            firstDay = day;
+        } else {
+            //Go backwards until we hit the first
+            let search = true; //Loop controller
+            let dayToCheck = day; //The day to check within the loop
+
+            //Linear search backwards
+            while (search) {
+                //Assign dayToCheck to the previous day
+                dayToCheck = this.getPreviousDay(dayToCheck);
+
+                //If dayCheck is a first
+                if (dayToCheck.dayDate.getUTCDate() === 1) {
+                    search = false; //Stop the loop
+                    firstDay = dayToCheck; //Assign first day to this day
+                }
+            }
+        }
+
+        //Now that we have the first day, we can go through the next 7 days, add them
+        //to an array, and return that array
+        const daysInMonth = this.getDaysInMonth(
+            firstDay.dayDate.getUTCMonth(),
+            firstDay.dayDate.getUTCFullYear()
+        );
+        const month = this.getDayRange(firstDay, daysInMonth);
+
+        return month;
+    }
+
+    /**
      * getDayRange() will return an array of days between the first day given, and the numerical range
-     * or second day given (exclusive).
+     * or second day given (inclusive).
      * @param {Day} dayOne The first day (inclusive) in the range
      * @param {Day/Int} dayTwo Either the second day in the range, or an int
      */
@@ -157,12 +216,12 @@ export class DayAPI {
 
         //If the second variable is an int instead of a Day
         if (typeof dayTwo === "number") {
-            const last = dayTwo;
             let currentDay = dayOne;
+            const last = dayTwo;
 
             returnDays.push(currentDay);
 
-            for (let id = 0; id < last; id++) {
+            for (let id = 1; id < last; id++) {
                 returnDays.push(this.getNextDay(currentDay));
                 currentDay = this.getNextDay(currentDay);
             }
@@ -171,6 +230,16 @@ export class DayAPI {
         } else {
             return 'THIS HASN"T BEEN IMPLEMENTED YET!!';
         }
+    }
+
+    /**
+     * getDaysInMonth() will return the amount of days in the given month/year combo.
+     * This method is borrowed from stackOverflow.
+     * @param {int} month 1-12; 1 = January, 2 = February, etc.
+     * @param {int} year YYYY
+     */
+    getDaysInMonth(month, year) {
+        return new Date(year, month, 0).getDate() - 1;
     }
 
     /**
@@ -193,7 +262,7 @@ export class DayAPI {
         let updated = false;
         //(Linear search) Loop through the days and update them if this day matches, add it if not
         for (let index = 0; index < this.response.length; index++) {
-            if (this.response[index].dayId === day.dayId) {
+            if (this.response[index]._id === day._id) {
                 //The day already exists, so update the goals
                 this.response[index] = day;
                 return day;
@@ -215,7 +284,7 @@ export class DayAPI {
  */
 class Day {
     constructor(day) {
-        this.dayId = day.dayId;
+        this._id = day._id;
         this.dayDate = new Date(day.dayDate);
         this.dayGoals = day.dayGoals;
     }
@@ -248,13 +317,13 @@ class Day {
     }
 
     /**
-     * dayName() returns the this day's name.
+     * getDayName() returns the this day's name.
      */
     getDayName() {
         //Default value/error value
         let dayName;
 
-        switch (this.dayDate.getDay()) {
+        switch (this.dayDate.getUTCDay()) {
             case 0:
                 dayName = "Sunday";
                 break;
@@ -278,7 +347,61 @@ class Day {
                 break;
             default:
                 dayName =
-                    "Error - dayName() Name cannot be determined: " +
+                    "Error - getDayName() Name cannot be determined: " +
+                    this.dayDate.toString();
+                break;
+        }
+        return dayName;
+    }
+
+    /**
+     * getMonthName() returns the this day's month's name.
+     */
+    getMonthName() {
+        //Default value/error value
+        let dayName;
+
+        switch (this.dayDate.getUTCMonth()) {
+            case 0:
+                dayName = "January";
+                break;
+            case 1:
+                dayName = "February";
+                break;
+            case 2:
+                dayName = "March";
+                break;
+            case 3:
+                dayName = "April";
+                break;
+            case 4:
+                dayName = "May";
+                break;
+            case 5:
+                dayName = "June";
+                break;
+            case 6:
+                dayName = "July";
+                break;
+            case 7:
+                dayName = "August";
+                break;
+            case 8:
+                dayName = "September";
+                break;
+            case 9:
+                dayName = "October";
+                break;
+            case 10:
+                dayName = "November";
+                break;
+            case 11:
+                dayName = "December";
+                break;
+
+            default:
+                dayName =
+                    "Error - getMonthName() Name cannot be determined: " +
                     this.dayDate.toString();
                 break;
         }
@@ -300,32 +423,35 @@ class Day {
         switch (type) {
             case "/":
                 returnVal =
-                    dayDate.getMonth() +
+                    dayDate.getUTCMonth() +
                     1 +
                     "/" +
-                    dayDate.getDate() +
+                    dayDate.getUTCDate() +
                     "/" +
-                    dayDate.getFullYear();
+                    dayDate.getUTCFullYear();
                 break;
             case "-":
                 returnVal =
-                    dayDate.getMonth() +
+                    dayDate.getUTCMonth() +
                     1 +
                     "-" +
-                    dayDate.getDate() +
+                    dayDate.getUTCDate() +
                     "-" +
-                    dayDate.getFullYear();
+                    dayDate.getUTCFullYear();
                 break;
             case "f":
                 returnVal =
                     this.getDayName() +
                     ", " +
-                    dayDate.getMonth() +
+                    dayDate.getUTCMonth() +
                     1 +
                     ", " +
-                    dayDate.getDate() +
+                    dayDate.getUTCDate() +
                     ", " +
-                    dayDate.getFullYear();
+                    dayDate.getUTCFullYear();
+                break;
+            default:
+                returnVal = "";
                 break;
         }
         return returnVal;

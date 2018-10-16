@@ -8,6 +8,7 @@
     min-width: 175px;
     margin: 0 16px;
     margin-bottom: 32px;
+    padding: 16px;
     color: $darkGrey;
     text-align: center;
     font-size: 18px;
@@ -40,6 +41,7 @@
     box-shadow: none;
     border: 4px dashed $lightGrey;
     font-weight: normal;
+    padding: 0;
 
     .goal-plus {
         font-size: 112px;

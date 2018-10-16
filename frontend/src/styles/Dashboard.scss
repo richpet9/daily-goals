@@ -1,10 +1,11 @@
 @import "_default.scss";
 
 main#dashboard-container {
+    margin: 0 auto;
     margin-top: 1px;
     text-align: center;
     position: relative;
-    width: 100%;
+    width: 70%;
     height: calc(100% - 50px);
     overflow-x: hidden;
 }

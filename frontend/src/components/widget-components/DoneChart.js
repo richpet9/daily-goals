@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DayInfo from "./DayInfo";
 
 //Stylesheet
 import "../../styles/DoneChart.css";
@@ -6,20 +7,17 @@ import "../../styles/DoneChart.css";
 export class DoneChart extends Component {
     constructor(props) {
         super(props);
-        let dayStyle,
-            doneRatio = 0;
+
+        //Set the default doneRatio
+        let doneRatio = 0;
 
         //Get the done ratio if this day has goals
         if (props.day.dayGoals.length > 0) {
             doneRatio = getDoneRatio(props.day);
         }
 
-        //TODO: work on removing the dayInfo from this component
-        dayStyle = this.getDayStyle(props, doneRatio);
-
         //Assign these values to the state
         this.state = {
-            dayStyle: dayStyle,
             doneRatio: doneRatio
         };
     }
@@ -28,51 +26,18 @@ export class DoneChart extends Component {
         //If the props are identical, return
         if (props === this.props) return;
 
-        //Create the variables we will need
-        let dayStyle,
-            doneRatio = 0;
+        //Create the variables we will need, default 0
+        let doneRatio = 0;
 
         //Get the done ratio if this day has goals
         if (props.day.dayGoals.length > 0) {
             doneRatio = getDoneRatio(props.day);
         }
 
-        dayStyle = this.getDayStyle(props, doneRatio);
-
         //Assign the new state
         this.setState({
-            dayStyle: dayStyle,
             doneRatio: doneRatio
         });
-    }
-
-    getDayStyle(props, doneRatio) {
-        //Determine how to style the day info
-        if (props.type === "vertical") {
-            if (doneRatio >= 0.75) {
-                //If this bar is 75% to the top
-                return {
-                    //Style for the day name and date
-                    dayCont: {
-                        top: (1 - doneRatio) * 100 + "%",
-                        color: "white"
-                    },
-                    //Style for the percent
-                    percs: {
-                        top: "100%"
-                    }
-                };
-            } else {
-                return {
-                    dayCont: {
-                        top: "calc(" + (1 - doneRatio) * 100 + "% - 74px)"
-                    },
-                    percs: {
-                        top: "calc(100% + 8px)"
-                    }
-                };
-            }
-        }
     }
 
     //Render a horizontal chart
@@ -86,32 +51,16 @@ export class DoneChart extends Component {
     }
 
     //Render vertical chart
-    //TODO: Remove day info from this component
     renderVertical() {
         const { day } = this.props;
-        const { doneRatio, dayStyle } = this.state;
+        const { doneRatio } = this.state;
 
         return (
             <div
                 className="chart-container"
                 onClick={this.props.goToDay.bind(this, this.props.day)}
             >
-                <div className="chart-day-container" style={dayStyle.dayCont}>
-                    <span className="chart-day-percent" style={dayStyle.percs}>
-                        {day.dayDate.getDate() + 1}
-                    </span>
-                    <div className="dayinfo-container">
-                        <span className="chart-day-name">
-                            {day
-                                .getDayName()
-                                .substring(0, 3)
-                                .toUpperCase()}
-                        </span>
-                        <span className="chart-day-num">
-                            {Math.floor(doneRatio * 100).toString() + "%"}
-                        </span>
-                    </div>
-                </div>
+                <DayInfo day={day} doneRatio={doneRatio} />
                 <div
                     className="chart-bar extend"
                     style={{ height: doneRatio * 100 + "%" }}

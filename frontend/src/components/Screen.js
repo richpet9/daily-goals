@@ -7,6 +7,7 @@ import DayAPI from "../classes/DayAPI";
 //Stylesheet
 import "../styles/Screen.css";
 
+//Initialize the day interface API
 const dayAPI = new DayAPI();
 
 class Screen extends Component {
@@ -33,7 +34,7 @@ class Screen extends Component {
             .then(res => res.json())
             .then(response => {
                 dayAPI.setResDays(response);
-                this.setDay(dayAPI.getToday());
+                this.setState({ currentDay: dayAPI.getToday() });
             });
     }
 
@@ -76,7 +77,7 @@ class Screen extends Component {
     setDbValues() {
         const response = dayAPI.getResDays();
 
-        fetch("/api/days/post", {
+        fetch("/api/days", {
             method: "post",
             body: response,
             headers: {
