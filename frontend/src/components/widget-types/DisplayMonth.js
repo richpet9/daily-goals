@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import WidgetControls from "../widget-components/WidgetControls";
+import Calendar from "../widget-components/Calendar";
 
 export class DisplayWeek extends Component {
     constructor(props) {
@@ -19,12 +20,9 @@ export class DisplayWeek extends Component {
 
     renderMonthDays() {
         let monthData = this.props.dayAPI.getMonthOf(this.props.currentDay);
-        monthData = monthData.map(day => (
-            <div className="month-day">{day.getDateFormatted("/")}</div>
-        ));
-
+        console.log(monthData);
         //TODO: Create a calandar component that can also go in DropDown?
-        return monthData;
+        return <Calendar monthData={monthData} goToDay={this.props.goToDay} />;
     }
 
     render() {

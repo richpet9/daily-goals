@@ -1,0 +1,42 @@
+@import "./_default.scss";
+
+.calendar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid $lightGrey;
+    border-top: none;
+    position: relative;
+    top: -8px;
+
+    .calendar-col {
+        display: inline-block;
+        flex-grow: 1;
+        text-align: left;
+        border-right: 1px solid $lightGrey;
+
+        .calendar-day {
+            background: $white;
+            font-size: 24px;
+            height: 7vw;
+            border-bottom: 1px solid $lightGrey;
+            padding: 8px 16px;
+            cursor: pointer;
+            box-shadow: none;
+            transition: all 100ms $matEaseStd;
+        }
+
+        .calendar-day:last-child {
+            border-bottom: none;
+        }
+
+        .calendar-day:hover {
+            position: relative;
+            box-shadow: $matShadowLight;
+        }
+    }
+
+    .calendar-col:last-child {
+        border-right: none;
+    }
+}

@@ -175,32 +175,57 @@ export class DayAPI {
         //Determine if this day is a first
         if (day.dayDate.getUTCDate() === 1) {
             //This day is a first
+            //TODO: THEN Check if this day is a sunday
             firstDay = day;
         } else {
             //Go backwards until we hit the first
             let search = true; //Loop controller
             let dayToCheck = day; //The day to check within the loop
+            let pastFirst = false; //If we passed the first of the month
 
             //Linear search backwards
             while (search) {
                 //Assign dayToCheck to the previous day
                 dayToCheck = this.getPreviousDay(dayToCheck);
 
-                //If dayCheck is a first
-                if (dayToCheck.dayDate.getUTCDate() === 1) {
-                    search = false; //Stop the loop
-                    firstDay = dayToCheck; //Assign first day to this day
+                //If dayCheck is a first, or if we already passed it
+                if (dayToCheck.dayDate.getUTCDate() === 1 || pastFirst) {
+                    //THEN check if it is a sunday
+                    if (dayToCheck.getDayName() === "Sunday") {
+                        search = false;
+                        firstDay = dayToCheck;
+                    }
+                    pastFirst = true; //Tell the loop the first has been passed
                 }
             }
         }
 
         //Now that we have the first day, we can go through the next 7 days, add them
         //to an array, and return that array
-        const daysInMonth = this.getDaysInMonth(
-            firstDay.dayDate.getUTCMonth(),
-            firstDay.dayDate.getUTCFullYear()
+        let lastDay = this.getDayByDate(
+            new Date(
+                firstDay.dayDate.getUTCFullYear(),
+                firstDay.dayDate.getUTCMonth() + 2,
+                0
+            )
         );
-        const month = this.getDayRange(firstDay, daysInMonth);
+
+        //If the last day of the month isn't a Saturday (for format purposes)
+        if (lastDay.getDayName() !== "Saturday") {
+            let search = true; //Search controller
+            while (search) {
+                //Set lastDay to the next day
+                lastDay = this.getNextDay(lastDay);
+
+                //If lastDay is saturday,
+                if (lastDay.getDayName() === "Saturday") {
+                    search = false; //Stop the search
+                }
+            }
+        }
+
+        //The month data is the day range between the first and last days
+        const month = this.getDayRange(firstDay, lastDay);
 
         return month;
     }
@@ -228,7 +253,29 @@ export class DayAPI {
 
             return returnDays;
         } else {
-            return 'THIS HASN"T BEEN IMPLEMENTED YET!!';
+            let currentDay = dayOne;
+            let next = true;
+
+            //First push the first day
+            returnDays.push(currentDay);
+
+            //Then begin the looping of next days until
+            while (next) {
+                currentDay = this.getNextDay(currentDay);
+
+                //We hit the last day
+                if (
+                    currentDay.dayDate.toDateString() ===
+                    dayTwo.dayDate.toDateString()
+                ) {
+                    next = false;
+                }
+
+                //Push the current Day
+                returnDays.push(currentDay);
+            }
+
+            return returnDays;
         }
     }
 
@@ -455,6 +502,18 @@ class Day {
                 break;
         }
         return returnVal;
+    }
+
+    isEqual(otherDay) {
+        if (
+            otherDay._is === this._id &&
+            otherDay.dayDate === this.dayDate &&
+            otherDay.dayGoals === this.dayGoals
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

@@ -4,7 +4,7 @@
     background: $white;
     position: relative;
     height: 135px;
-    width: calc(25% - 32px);
+    width: calc(25% - 24px);
     min-width: 175px;
     margin: 0 16px;
     margin-bottom: 32px;
@@ -23,6 +23,14 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+}
+
+.goal:nth-child(4n + 1) {
+    margin-left: 0;
+}
+
+.goal:nth-child(4n) {
+    margin-right: 0;
 }
 
 .goal.done {

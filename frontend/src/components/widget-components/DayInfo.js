@@ -27,7 +27,7 @@ export class DayInfo extends Component {
                     color: "white"
                 },
                 //Style for the percent
-                percs: {
+                num: {
                     top: "100%"
                 }
             };
@@ -36,7 +36,7 @@ export class DayInfo extends Component {
                 dayCont: {
                     top: "calc(" + (1 - doneRatio) * 100 + "% - 58px)"
                 },
-                percs: {
+                num: {
                     top: "calc(100% + 8px)"
                 }
             };
@@ -49,17 +49,31 @@ export class DayInfo extends Component {
 
         return (
             <div className="chart-day-container" style={dayStyle.dayCont}>
-                <span className="chart-day-percent" style={dayStyle.percs}>
+                <span className="chart-day-num" style={dayStyle.num}>
                     {day.dayDate.getUTCDate()}
                 </span>
                 <div className="dayinfo-container">
-                    <span className="chart-day-name">
+                    <span
+                        className="chart-day-name"
+                        style={
+                            this.props.hide.includes("dayName")
+                                ? { display: "none" }
+                                : { display: "inherit" }
+                        }
+                    >
                         {day
                             .getDayName()
                             .substring(0, 3)
                             .toUpperCase()}
                     </span>
-                    <span className="chart-day-num">
+                    <span
+                        className="chart-day-percent"
+                        style={
+                            this.props.hide.includes("percs")
+                                ? { display: "none" }
+                                : { position: "relative" }
+                        }
+                    >
                         {Math.floor(this.props.doneRatio * 100).toString() +
                             "%"}
                     </span>

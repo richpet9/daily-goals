@@ -1,7 +1,7 @@
-@import "./default.scss";
+@import "./_default.scss";
 
 .chart-day-container {
-    position: absolute;
+    position: relative;
     z-index: 5;
     color: $darkGrey;
     width: 100%;
@@ -17,13 +17,13 @@
         line-height: 110%;
     }
 
-    .chart-day-num {
+    .chart-day-percent {
         display: block;
         font-size: 16px;
         font-weight: lighter;
     }
 
-    .chart-day-percent {
+    .chart-day-num {
         display: inline-block;
         font-weight: bolder;
         font-size: 46px;
