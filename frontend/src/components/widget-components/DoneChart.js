@@ -60,7 +60,7 @@ export class DoneChart extends Component {
                 className="chart-container"
                 onClick={this.props.goToDay.bind(this, this.props.day)}
             >
-                <DayInfo day={day} doneRatio={doneRatio} hide={[]} />
+                <DayInfo day={day} doneRatio={doneRatio} />
                 <div
                     className="chart-bar extend"
                     style={{ height: doneRatio * 100 + "%" }}

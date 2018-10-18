@@ -20,7 +20,6 @@ export class DisplayWeek extends Component {
 
     renderMonthDays() {
         let monthData = this.props.dayAPI.getMonthOf(this.props.currentDay);
-        console.log(monthData);
         //TODO: Create a calandar component that can also go in DropDown?
         return <Calendar monthData={monthData} goToDay={this.props.goToDay} />;
     }

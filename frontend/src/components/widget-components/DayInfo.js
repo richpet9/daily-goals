@@ -53,27 +53,13 @@ export class DayInfo extends Component {
                     {day.dayDate.getUTCDate()}
                 </span>
                 <div className="dayinfo-container">
-                    <span
-                        className="chart-day-name"
-                        style={
-                            this.props.hide.includes("dayName")
-                                ? { display: "none" }
-                                : { display: "inherit" }
-                        }
-                    >
+                    <span className="chart-day-name">
                         {day
                             .getDayName()
                             .substring(0, 3)
                             .toUpperCase()}
                     </span>
-                    <span
-                        className="chart-day-percent"
-                        style={
-                            this.props.hide.includes("percs")
-                                ? { display: "none" }
-                                : { position: "relative" }
-                        }
-                    >
+                    <span className="chart-day-percent">
                         {Math.floor(this.props.doneRatio * 100).toString() +
                             "%"}
                     </span>

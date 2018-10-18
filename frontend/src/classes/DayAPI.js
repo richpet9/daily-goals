@@ -69,8 +69,9 @@ export class DayAPI {
 
         //For every day in the response, search the year month and num until you find a match
         this.response.forEach(day => {
+            console.log(day.dayDate);
             //Set the date that we will compare to the requested date
-            const dateToCompare = new Date(day.dayDate);
+            const dateToCompare = day.dayDate;
 
             if (dateToCompare.toDateString() === date.toDateString()) {
                 targetDay = day;
@@ -200,15 +201,26 @@ export class DayAPI {
             }
         }
 
+        console.log("firstDay: " + firstDay.dayDate.toDateString());
+
         //Now that we have the first day, we can go through the next 7 days, add them
         //to an array, and return that array
         let lastDay = this.getDayByDate(
             new Date(
-                firstDay.dayDate.getUTCFullYear(),
-                firstDay.dayDate.getUTCMonth() + 2,
+                day.dayDate.getUTCFullYear(),
+                day.dayDate.getUTCMonth() + 1,
                 0
             )
         );
+
+        console.log(
+            "day date: " +
+                day.dayDate.getUTCFullYear() +
+                day.dayDate.getUTCDate() +
+                day.dayDate.getUTCMonth()
+        );
+
+        console.log("prelastDay: " + lastDay.dayDate.toDateString());
 
         //If the last day of the month isn't a Saturday (for format purposes)
         if (lastDay.getDayName() !== "Saturday") {
@@ -223,6 +235,7 @@ export class DayAPI {
                 }
             }
         }
+        console.log("lastDay: " + lastDay.dayDate.toDateString());
 
         //The month data is the day range between the first and last days
         const month = this.getDayRange(firstDay, lastDay);
@@ -269,6 +282,7 @@ export class DayAPI {
                     dayTwo.dayDate.toDateString()
                 ) {
                     next = false;
+                    break;
                 }
 
                 //Push the current Day

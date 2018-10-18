@@ -1,10 +1,11 @@
 @import "_default.scss";
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,700");
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "IBM Plex sans", sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
 }
 
 html,

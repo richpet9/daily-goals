@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DayInfo from "./DayInfo";
 
 import "../../styles/Calendar.css";
 
@@ -60,14 +59,25 @@ class Calendar extends Component {
         //Remap the above array of arrays to make each sub array have day info elements
         const render = days.map(col => {
             return (
-                <div className="calendar-col">
+                <div className="calendar-col" key={days.indexOf(col)}>
                     {col.map(day => {
+                        //If this day's month is not equal to the month data's 8th day's (must be in current month) month.
+                        const classes =
+                            day.dayDate.getUTCMonth() !==
+                            this.props.monthData[8].dayDate.getUTCMonth()
+                                ? "calendar-day previous"
+                                : "calendar-day";
+
                         return (
                             <div
-                                className="calendar-day"
+                                className={classes}
+                                key={col.indexOf(day)}
                                 onClick={this.props.goToDay.bind(this, day)}
                             >
-                                {day.dayDate.getUTCDate()}
+                                <span className="calendar-date">
+                                    {day.dayDate.getUTCDate()}
+                                </span>
+                                <div className="calendar-perc">100%</div>
                             </div>
                         );
                     })}
