@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
 import Debug from "./Debug";
-import DayAPI from "../classes/DayAPI";
+import DayAPI, { Day } from "../classes/DayAPI";
 
 //Stylesheet
 import "../styles/Screen.css";
@@ -11,12 +11,26 @@ import "../styles/Screen.css";
 const dayAPI = new DayAPI();
 
 class Screen extends Component {
+    dummyDayData = {
+        _id: 0,
+        dayDate: new Date(0),
+        dayGoals: [
+            {
+                goalId: 0,
+                goalDone: false,
+                goalText: ""
+            }
+        ]
+    };
+
+    dummyDay = new Day(this.dummyDayData);
+
     constructor(props) {
         super(props);
 
         this.state = {
             currentDay: null,
-            currentDisplay: "day" //Default dispaly\
+            currentDisplay: "week" //Default dispaly
         };
 
         //Bind functions
@@ -29,7 +43,7 @@ class Screen extends Component {
         this.logCurrentDay = this.logCurrentDay.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch("/api/days")
             .then(res => res.json())
             .then(response => {
@@ -38,6 +52,9 @@ class Screen extends Component {
             });
     }
 
+    /**
+     *  hanldleNavClick() will handle what happens whent he navbar is clicked
+     */
     handleNavClick(view) {
         if (this.state.currentDay.dayGoals.length !== 0) {
             dayAPI.pushDay(this.state.currentDay);
@@ -89,24 +106,29 @@ class Screen extends Component {
     }
 
     render() {
-        return this.state.currentDay ? (
+        const currentDay = this.state.currentDay
+            ? this.state.currentDay
+            : this.dummyDay;
+
+        const monthData = dayAPI.getMonthOf(currentDay);
+        const weekData = dayAPI.getWeekOf(currentDay);
+
+        return (
             <div className="container">
                 <Header onClickFunc={this.handleNavClick} />
                 <Dashboard
-                    currentDisplay={this.state.currentDisplay}
-                    currentDay={this.state.currentDay}
+                    weekData={weekData}
+                    monthData={monthData}
+                    currentDisplay={
+                        this.state.currentDisplay
+                            ? this.state.currentDisplay
+                            : "week"
+                    }
+                    currentDay={currentDay}
                     goToDay={this.goToDay}
                     dayAPI={dayAPI}
                     setDay={this.setDay}
                 />
-                <Debug
-                    logAPI={this.logAPI}
-                    logCurrentDay={this.logCurrentDay}
-                />
-            </div>
-        ) : (
-            <div className="container">
-                Could not get current day from database.
                 <Debug
                     logAPI={this.logAPI}
                     logCurrentDay={this.logCurrentDay}

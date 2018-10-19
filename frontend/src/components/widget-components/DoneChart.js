@@ -9,12 +9,7 @@ export class DoneChart extends Component {
         super(props);
 
         //Set the default doneRatio
-        let doneRatio = 0;
-
-        //Get the done ratio if this day has goals
-        if (props.day.dayGoals.length > 0) {
-            doneRatio = getDoneRatio(props.day);
-        }
+        const doneRatio = props.day.getDoneRatio();
 
         //Assign these values to the state
         this.state = {
@@ -27,12 +22,7 @@ export class DoneChart extends Component {
         if (props === this.props) return;
 
         //Create the variables we will need, default 0
-        let doneRatio = 0;
-
-        //Get the done ratio if this day has goals
-        if (props.day.dayGoals.length > 0) {
-            doneRatio = getDoneRatio(props.day);
-        }
+        const doneRatio = props.day.getDoneRatio();
 
         //Assign the new state
         this.setState({
@@ -89,22 +79,6 @@ export class DoneChart extends Component {
             </div>
         );
     }
-}
-
-/**
- * getDoneRatio() will return the amount of done goals divided by the
- * total amount of goals
- * @param {JSON} day
- */
-function getDoneRatio(day) {
-    let doneGoals = 0;
-    const totalGoals = day.dayGoals.length;
-
-    day.dayGoals.forEach(goal => {
-        if (goal.goalDone === true) doneGoals++;
-    });
-
-    return doneGoals / totalGoals;
 }
 
 export default DoneChart;

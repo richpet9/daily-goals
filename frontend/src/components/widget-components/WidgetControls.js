@@ -6,21 +6,33 @@ import "../../styles/WidgetControls.css";
 
 export class WidgetControls extends Component {
     render() {
-        let title;
+        let title, options;
+
         switch (this.props.type) {
             case "day":
                 title = this.props.currentDay.getDayName();
+                options = ["Today", "Yesterday", "Tomorrow"];
                 break;
             case "week":
                 title =
                     "Week of " + this.props.weekData[0].getDateFormatted("/");
+                options = ["This Week", "Last Week", "Next Week"];
                 break;
             case "month":
                 title = this.props.currentDay.getMonthName();
+                options = ["This Month", "Last Month", "Next Month"];
                 break;
             default:
                 title = this.props.currentDay.getDayName();
+                options = ["error"];
                 break;
+        }
+
+        //The date is January 1, 1970, display the loading text
+        if (
+            this.props.currentDay.dayDate.toString() === new Date(0).toString()
+        ) {
+            title = "Loading...";
         }
 
         return (
@@ -33,19 +45,13 @@ export class WidgetControls extends Component {
                     &lt;
                 </span>
                 <DropDown
-                    options={
-                        this.props.type === "day"
-                            ? ["Today", "Yesterday", "Tomorrow", "CALENDAR"]
-                            : [
-                                  "This Week",
-                                  "Last Week",
-                                  "Next Week",
-                                  "CALENDAR"
-                              ]
-                    }
+                    options={options}
                     function={this.props.onClickControlItem}
                     expanded={false}
                     day={this.props.currentDay}
+                    monthData={this.props.monthData}
+                    weekData={this.props.weekData}
+                    setDay={this.props.setDay}
                 />
 
                 <span

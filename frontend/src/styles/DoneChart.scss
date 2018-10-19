@@ -4,7 +4,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    height: 32px;
+    height: 24px;
     width: 100%;
     background: $white;
     margin: 0;
@@ -12,7 +12,6 @@
     box-shadow: $matShadowLight;
     border-radius: 3px;
     border: 1px solid $lightGrey;
-    border-top: none;
     transition: box-shadow 400ms $matEaseStd;
 
     .chart-bar {

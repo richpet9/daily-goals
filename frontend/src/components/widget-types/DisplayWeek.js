@@ -73,26 +73,27 @@ export class DisplayWeek extends Component {
     }
 
     getWeekData(day) {
-        const weekData = this.props.dayAPI.getWeekOf(day);
         return (
             <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">
                     <WidgetControls
                         type={"week"}
                         currentDay={this.props.currentDay}
-                        weekData={weekData}
+                        weekData={this.props.weekData}
+                        monthData={this.props.monthData}
                         handleDayNav={this.handleDayNav}
                         onClickControlItem={this.onClickControlItem}
+                        setDay={this.props.setDay}
                     />
                 </div>
                 <div className="widget-body week">
-                    {weekData.map(data => {
+                    {this.props.weekData.map(data => {
                         return (
                             <DoneChart
                                 day={data}
                                 type="vertical"
                                 goToDay={this.props.goToDay}
-                                key={weekData.indexOf(data)}
+                                key={this.props.weekData.indexOf(data)}
                             />
                         );
                     })}

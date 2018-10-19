@@ -1,11 +1,16 @@
 import React, { Component } from "react";
+import CalendarDay from "../widget-components/CalendarDay";
 
 import "../../styles/Calendar.css";
 
 class Calendar extends Component {
-    state = { monthData: this.props.monthData };
+    constructor(props) {
+        super(props);
 
-    getMonthData() {
+        this.getMonthData = this.getMonthData.bind(this);
+    }
+
+    getMonthData(monthData) {
         //The columns of elements to display
         let sunday = [];
         let monday = [];
@@ -16,7 +21,7 @@ class Calendar extends Component {
         let saturday = [];
 
         //For every day in this month,
-        for (let day of this.state.monthData) {
+        for (let day of monthData) {
             //Do a switch case for the day, insert it into that day
             switch (day.dayDate.getUTCDay()) {
                 case 0:
@@ -64,21 +69,18 @@ class Calendar extends Component {
                         //If this day's month is not equal to the month data's 8th day's (must be in current month) month.
                         const classes =
                             day.dayDate.getUTCMonth() !==
-                            this.props.monthData[8].dayDate.getUTCMonth()
+                            monthData[8].dayDate.getUTCMonth()
                                 ? "calendar-day previous"
                                 : "calendar-day";
 
                         return (
-                            <div
-                                className={classes}
+                            <CalendarDay
+                                day={day}
+                                classes={classes}
                                 key={col.indexOf(day)}
-                                onClick={this.props.goToDay.bind(this, day)}
-                            >
-                                <span className="calendar-date">
-                                    {day.dayDate.getUTCDate()}
-                                </span>
-                                <div className="calendar-perc">100%</div>
-                            </div>
+                                onClick={this.props.goToDay}
+                                inNav={this.props.inNav}
+                            />
                         );
                     })}
                 </div>
@@ -90,7 +92,17 @@ class Calendar extends Component {
     }
 
     render() {
-        return <div className="calendar-container">{this.getMonthData()}</div>;
+        return (
+            <div
+                className={
+                    this.props.inNav
+                        ? "calendar-container in-nav"
+                        : "calendar-container"
+                }
+            >
+                {this.getMonthData(this.props.monthData)}
+            </div>
+        );
     }
 }
 

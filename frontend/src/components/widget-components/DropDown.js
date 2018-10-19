@@ -2,10 +2,8 @@ import React, { Component } from "react";
 
 //Stylesheet
 import "../../styles/DropDown.css";
+import Calendar from "./Calendar";
 
-/**
- * WidgetControls class creates a widget control + title menu
- */
 class DropDown extends Component {
     constructor(props) {
         super(props);
@@ -78,7 +76,14 @@ class DropDown extends Component {
                 />
 
                 {this.state.expanded ? (
-                    <div className="widget-options expanded">{options}</div>
+                    <ul className="widget-options expanded">
+                        {options}
+                        <Calendar
+                            monthData={this.props.monthData}
+                            goToDay={this.props.setDay}
+                            inNav={true}
+                        />
+                    </ul>
                 ) : (
                     ""
                 )}

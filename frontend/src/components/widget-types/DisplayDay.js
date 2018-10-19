@@ -102,10 +102,13 @@ export class DisplayDay extends Component {
             <div className="widget" style={this.props.style}>
                 <div className="widget-controls-container">
                     <WidgetControls
+                        weekData={this.props.weekData}
+                        monthData={this.props.monthData}
                         type={"day"}
                         currentDay={this.props.currentDay}
                         handleDayNav={this.handleDayNav}
                         onClickControlItem={this.onClickControlItem}
+                        setDay={this.props.setDay}
                     />
                 </div>
                 <div className="widget-body">

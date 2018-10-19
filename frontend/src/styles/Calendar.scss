@@ -5,7 +5,6 @@
     display: flex;
     justify-content: space-between;
     border: 1px solid $lightGrey;
-    border-top: none;
     position: relative;
     top: -8px;
     box-shadow: $matShadowLight;
@@ -15,52 +14,21 @@
         flex-grow: 1;
         text-align: left;
         border-right: 1px solid $lightGrey;
-
-        .calendar-day {
-            background: $white;
-            position: relative;
-            height: 7vw;
-            border-bottom: 1px solid $lightGrey;
-            padding: 8px 8px;
-            cursor: pointer;
-            box-shadow: none;
-            overflow: hidden;
-            transition: all 100ms $matEaseStd;
-            z-index: 2;
-
-            .calendar-date {
-                font-size: 24px;
-                line-height: 100%;
-                font-weight: lighter;
-            }
-
-            .calendar-perc {
-                position: absolute;
-                bottom: 8px;
-                left: 0;
-                font-size: 12px;
-                line-height: 100%;
-                width: 100%;
-                text-align: center;
-                box-shadow: 0px 0px 10px $white;
-            }
-        }
-
-        .calendar-day:last-child {
-            border-bottom: none;
-        }
-
-        .calendar-day:hover {
-            box-shadow: $matShadowLight;
-            z-index: 3;
-        }
-
-        .calendar-day.previous > * {
-            opacity: 0.3;
-        }
+        width: 14.2%;
     }
 
     .calendar-col:last-child {
         border-right: none;
+    }
+}
+
+.calendar-container.in-nav {
+    border: none;
+    top: 0;
+    padding: 3px;
+    box-shadow: none;
+
+    .calendar-col {
+        border: none;
     }
 }

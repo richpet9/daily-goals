@@ -1,0 +1,102 @@
+@import "./_default.scss";
+
+.calendar-day {
+    background: $white;
+    position: relative;
+    height: 8vw;
+    border-bottom: 1px solid $lightGrey;
+    padding: 8px 8px;
+    cursor: pointer;
+    box-shadow: none;
+    overflow: hidden;
+    transition: all 100ms $matEaseStd;
+    z-index: 2;
+    width: 100%;
+
+    .calendar-date {
+        font-size: 20px;
+        line-height: 100%;
+        font-weight: lighter;
+    }
+
+    .calendar-perc {
+        position: absolute;
+        padding-top: 6px;
+        padding-bottom: 8px;
+        bottom: 0;
+        left: 0;
+        font-size: 12px;
+        line-height: 100%;
+        width: 100%;
+        text-align: center;
+        background: $white;
+    }
+
+    .goal-container {
+        padding-top: 6px;
+        width: 100%;
+
+        .mini-goal {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 4px;
+            margin-top: -3px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            background: $darkGrey;
+            color: $white;
+            border-radius: 2px;
+            border: 1px solid $darkGrey;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .mini-goal.done {
+            background: $darkGrey;
+            color: $white;
+        }
+
+        .mini-goal.undone {
+            background: $white;
+            color: $darkGrey;
+        }
+    }
+}
+
+.calendar-day:last-child {
+    border-bottom: none;
+}
+
+.calendar-day:hover {
+    box-shadow: $matShadowLight;
+    z-index: 3;
+}
+
+.calendar-day.previous > * {
+    opacity: 0.3;
+}
+
+.calendar-day.in-nav {
+    height: auto;
+    padding: 0;
+    border: none;
+    text-align: center;
+
+    .calendar-date {
+        display: inline-block;
+        font-size: 12px;
+        border-radius: 0%;
+        width: 100%;
+        padding: 5px 0;
+    }
+}
+
+.calendar-day.in-nav:hover {
+    box-shadow: none;
+
+    .calendar-date {
+        background: $darkGrey;
+        color: $white;
+    }
+}

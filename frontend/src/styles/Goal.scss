@@ -15,7 +15,8 @@
     cursor: pointer;
     border-radius: 3px;
     box-shadow: $matShadowLight;
-    transition: all 100ms $matEaseStd;
+    transition: box-shadow 100ms $matEaseStd, color 100ms $matEaseStd,
+        background 100ms $matEaseStd, border 100ms $matEaseStd;
 
     .goal-body {
         position: relative;

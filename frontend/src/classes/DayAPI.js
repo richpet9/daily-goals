@@ -69,7 +69,6 @@ export class DayAPI {
 
         //For every day in the response, search the year month and num until you find a match
         this.response.forEach(day => {
-            console.log(day.dayDate);
             //Set the date that we will compare to the requested date
             const dateToCompare = day.dayDate;
 
@@ -161,6 +160,7 @@ export class DayAPI {
     /**
      * getMonthOf() takes a day and returns an array length 7 of the days within that month.
      * months start on Mondays.
+     * Richie's first algorithm!!
      * @param {Day} day The day of which we want to retrieve the month
      */
     getMonthOf(day) {
@@ -170,57 +170,38 @@ export class DayAPI {
             return;
         }
 
-        //The first day of this month
-        let firstDay;
+        //Get first day of input day's month
+        let firstDay = this.getDayByDate(
+            new Date(
+                day.dayDate.getUTCFullYear(),
+                day.dayDate.getUTCMonth() /*no plus one here?*/,
+                1
+            )
+        );
 
-        //Determine if this day is a first
-        if (day.dayDate.getUTCDate() === 1) {
-            //This day is a first
-            //TODO: THEN Check if this day is a sunday
-            firstDay = day;
-        } else {
-            //Go backwards until we hit the first
-            let search = true; //Loop controller
-            let dayToCheck = day; //The day to check within the loop
-            let pastFirst = false; //If we passed the first of the month
-
-            //Linear search backwards
+        //If the last day of the month isn't a Sunday (for format purposes)
+        if (firstDay.getDayName() !== "Sunday") {
+            let search = true; //Search controller
             while (search) {
-                //Assign dayToCheck to the previous day
-                dayToCheck = this.getPreviousDay(dayToCheck);
+                //Set lastDay to the next day
+                firstDay = this.getPreviousDay(firstDay);
 
-                //If dayCheck is a first, or if we already passed it
-                if (dayToCheck.dayDate.getUTCDate() === 1 || pastFirst) {
-                    //THEN check if it is a sunday
-                    if (dayToCheck.getDayName() === "Sunday") {
-                        search = false;
-                        firstDay = dayToCheck;
-                    }
-                    pastFirst = true; //Tell the loop the first has been passed
+                //If lastDay is saturday,
+                if (firstDay.getDayName() === "Sunday") {
+                    search = false; //Stop the search
                 }
             }
         }
-
-        console.log("firstDay: " + firstDay.dayDate.toDateString());
 
         //Now that we have the first day, we can go through the next 7 days, add them
         //to an array, and return that array
         let lastDay = this.getDayByDate(
             new Date(
                 day.dayDate.getUTCFullYear(),
-                day.dayDate.getUTCMonth() + 1,
+                day.dayDate.getUTCMonth() + 1, //Please god explain to me why this plus one is here but not above
                 0
             )
         );
-
-        console.log(
-            "day date: " +
-                day.dayDate.getUTCFullYear() +
-                day.dayDate.getUTCDate() +
-                day.dayDate.getUTCMonth()
-        );
-
-        console.log("prelastDay: " + lastDay.dayDate.toDateString());
 
         //If the last day of the month isn't a Saturday (for format purposes)
         if (lastDay.getDayName() !== "Saturday") {
@@ -235,7 +216,6 @@ export class DayAPI {
                 }
             }
         }
-        console.log("lastDay: " + lastDay.dayDate.toDateString());
 
         //The month data is the day range between the first and last days
         const month = this.getDayRange(firstDay, lastDay);
@@ -277,12 +257,8 @@ export class DayAPI {
                 currentDay = this.getNextDay(currentDay);
 
                 //We hit the last day
-                if (
-                    currentDay.dayDate.toDateString() ===
-                    dayTwo.dayDate.toDateString()
-                ) {
+                if (currentDay.isEqual(dayTwo)) {
                     next = false;
-                    break;
                 }
 
                 //Push the current Day
@@ -343,11 +319,29 @@ export class DayAPI {
  * Day Class
  * Description: Holds the data for a specific day
  */
-class Day {
+export class Day {
     constructor(day) {
         this._id = day._id;
         this.dayDate = new Date(day.dayDate);
         this.dayGoals = day.dayGoals;
+    }
+
+    /**
+     * isEqual() will determine if this Day is an exact reference to
+     * the given Day.
+     * @param {Day} otherDay The day to compare
+     */
+    isEqual(otherDay) {
+        if (
+            this._id === otherDay._id &&
+            this.dayDate.getUTCDate() === otherDay.dayDate.getUTCDate() &&
+            this.dayDate.getUTCMonth() === otherDay.dayDate.getUTCMonth() &&
+            this.dayDate.getUTCFullYear() === otherDay.dayDate.getUTCFullYear()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -518,16 +512,21 @@ class Day {
         return returnVal;
     }
 
-    isEqual(otherDay) {
-        if (
-            otherDay._is === this._id &&
-            otherDay.dayDate === this.dayDate &&
-            otherDay.dayGoals === this.dayGoals
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+    /**
+     * getDoneRatio() will return the amount of done goals divided by the
+     * total amount of goals
+     */
+    getDoneRatio() {
+        let doneGoals = 0;
+        const totalGoals = this.dayGoals.length;
+
+        this.dayGoals.forEach(goal => {
+            if (goal.goalDone === true) doneGoals++;
+        });
+
+        if (totalGoals === 0) return 0;
+
+        return doneGoals / totalGoals;
     }
 }
 
