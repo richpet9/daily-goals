@@ -67,16 +67,29 @@ class Calendar extends Component {
                 <div className="calendar-col" key={days.indexOf(col)}>
                     {col.map(day => {
                         //If this day's month is not equal to the month data's 8th day's (must be in current month) month.
-                        const classes =
-                            day.dayDate.getUTCMonth() !==
-                            monthData[8].dayDate.getUTCMonth()
-                                ? "calendar-day previous"
-                                : "calendar-day";
+                        const classes = day => {
+                            if (
+                                day.dayDate.getUTCMonth() !==
+                                monthData[8].dayDate.getUTCMonth()
+                            ) {
+                                return "calendar-day previous";
+                            }
+
+                            if (day.isEqual(this.props.day)) {
+                                return "calendar-day current";
+                            }
+
+                            if (day.isEqual(this.props.today)) {
+                                return "calendar-day today";
+                            }
+
+                            return "calendar-day";
+                        };
 
                         return (
                             <CalendarDay
                                 day={day}
-                                classes={classes}
+                                classes={classes(day)}
                                 key={col.indexOf(day)}
                                 onClick={this.props.goToDay}
                                 inNav={this.props.inNav}
@@ -100,6 +113,25 @@ class Calendar extends Component {
                         : "calendar-container"
                 }
             >
+                {this.props.inNav && (
+                    <div className="calendar-nav">
+                        <span
+                            className="calendar-nav-arrow"
+                            onClick={this.props.handleDayNav.bind(this, "<")}
+                        >
+                            &lt;
+                        </span>
+                        <span className="calendar-nav-month">
+                            {this.props.day.getMonthName()}
+                        </span>
+                        <span
+                            className="calendar-nav-arrow"
+                            onClick={this.props.handleDayNav.bind(this, ">")}
+                        >
+                            &gt;
+                        </span>
+                    </div>
+                )}
                 {this.getMonthData(this.props.monthData)}
             </div>
         );

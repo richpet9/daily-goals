@@ -34,10 +34,12 @@ export class DisplayDay extends Component {
      */
     onClickControlItem(item) {
         //Get the dayAPI and setDay function from props
-        const { setDay, dayAPI } = this.props;
+        const { setDay, dayAPI, currentDay } = this.props;
 
-        //Before we do anything, save the day by pushing to file/database
-        dayAPI.pushDay(this.props.currentDay);
+        //If the day we are leaving has goals, update the day in memory
+        if (currentDay.dayGoals.length !== 0) {
+            this.props.dayAPI.pushDay(currentDay);
+        }
 
         //Get Today's Day
         const today = dayAPI.getToday();
@@ -83,6 +85,7 @@ export class DisplayDay extends Component {
     handleDayNav(direction) {
         const { setDay, dayAPI, currentDay } = this.props;
 
+        //If the day we are leaving has goals, update the day in memory
         if (currentDay.dayGoals.length !== 0) {
             this.props.dayAPI.pushDay(currentDay);
         }
@@ -106,6 +109,7 @@ export class DisplayDay extends Component {
                         monthData={this.props.monthData}
                         type={"day"}
                         currentDay={this.props.currentDay}
+                        today={this.props.today}
                         handleDayNav={this.handleDayNav}
                         onClickControlItem={this.onClickControlItem}
                         setDay={this.props.setDay}

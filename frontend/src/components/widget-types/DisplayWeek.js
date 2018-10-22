@@ -79,6 +79,7 @@ export class DisplayWeek extends Component {
                     <WidgetControls
                         type={"week"}
                         currentDay={this.props.currentDay}
+                        today={this.props.today}
                         weekData={this.props.weekData}
                         monthData={this.props.monthData}
                         handleDayNav={this.handleDayNav}

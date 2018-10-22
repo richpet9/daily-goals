@@ -11,16 +11,16 @@ export class WidgetControls extends Component {
         switch (this.props.type) {
             case "day":
                 title = this.props.currentDay.getDayName();
-                options = ["Today", "Yesterday", "Tomorrow"];
+                options = ["Today"];
                 break;
             case "week":
                 title =
                     "Week of " + this.props.weekData[0].getDateFormatted("/");
-                options = ["This Week", "Last Week", "Next Week"];
+                options = ["This Week"];
                 break;
             case "month":
                 title = this.props.currentDay.getMonthName();
-                options = ["This Month", "Last Month", "Next Month"];
+                options = ["This Month"];
                 break;
             default:
                 title = this.props.currentDay.getDayName();
@@ -49,9 +49,11 @@ export class WidgetControls extends Component {
                     function={this.props.onClickControlItem}
                     expanded={false}
                     day={this.props.currentDay}
+                    today={this.props.today}
                     monthData={this.props.monthData}
                     weekData={this.props.weekData}
                     setDay={this.props.setDay}
+                    handleDayNav={this.props.handleDayNav}
                 />
 
                 <span

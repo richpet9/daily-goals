@@ -8,6 +8,7 @@
     position: relative;
     top: -8px;
     box-shadow: $matShadowLight;
+    background: $white;
 
     .calendar-col {
         display: inline-block;
@@ -25,10 +26,33 @@
 .calendar-container.in-nav {
     border: none;
     top: 0;
-    padding: 3px;
     box-shadow: none;
+    background: none;
+    display: block;
 
     .calendar-col {
         border: none;
+    }
+
+    .calendar-nav {
+        width: 100%;
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+
+        .calendar-nav-month {
+            padding: 3px;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .calendar-nav-arrow {
+            padding: 3px;
+            display: inline-block;
+        }
+
+        .calendar-nav-arrow:hover {
+            background: $lightGrey;
+        }
     }
 }

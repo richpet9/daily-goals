@@ -63,6 +63,14 @@ export class Debug extends Component {
                         style={this.style.button}
                     />
                 )}
+                {!this.state.hidden && (
+                    <input
+                        type="button"
+                        value="log monthData"
+                        onClick={() => console.log(this.props.monthData)}
+                        style={this.style.button}
+                    />
+                )}
                 <input
                     type="button"
                     value={

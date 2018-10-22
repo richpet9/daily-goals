@@ -61,5 +61,9 @@ header {
                 display: block;
             }
         }
+
+        .nav-item.current {
+            font-weight: bold !important;
+        }
     }
 }

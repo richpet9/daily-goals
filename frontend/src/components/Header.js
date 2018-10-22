@@ -5,62 +5,6 @@ import Link from "./Link";
 import "../styles/Header.css";
 
 export class Header extends Component {
-    constructor(props) {
-        super(props);
-
-        //Set States
-        this.state = {
-            //Styles
-            styles: {
-                //The style for the color of the brand
-                brand: {
-                    color: "#3a3a3a"
-                }
-            },
-            //lastColor is the last color the hover went to, this avoids repeats :)
-            lastColor: "#3a3a3a"
-        };
-
-        //Bind functions
-        this.handleMouseEnter = this.handleMouseEnter.bind(this);
-        this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    }
-
-    /**
-     * handleMouseEnter() will change the color of the brand image
-     * according to a predefined set of colors, stored in colors[].
-     */
-    handleMouseEnter() {
-        const colors = [
-            "#ec4040", //Red
-            "#6fe482", //Green
-            "#ec7940", //orange
-            "#40b1ec", //Light Blue
-            "#4060ec" //Dark Blue/Purple
-        ];
-
-        //Generate a random number out of the possible colors
-        const randomNumber = Math.floor(Math.random() * colors.length);
-
-        //If the last color is this color, do it again
-        if (this.state.lastColor === colors[randomNumber]) {
-            this.handleMouseEnter();
-        } else {
-            //Set the color style to the value of colors at that index
-            this.setState({
-                styles: { brand: { color: colors[randomNumber] } },
-                lastColor: colors[randomNumber]
-            });
-        }
-    }
-    /**
-     * handleMouseLeave() will change the color of the brand image
-     * to the default value: #3a3a3a
-     */
-    handleMouseLeave() {
-        this.setState({ styles: { brand: { color: "#3a3a3a" } } });
-    }
-
     render() {
         return (
             <header>
@@ -70,6 +14,7 @@ export class Header extends Component {
                 <Nav
                     items={["DAY", "WEEK", "MONTH"]}
                     onClickFunc={this.props.onClickFunc}
+                    current={this.props.currentDisplay}
                 />
             </header>
         );
@@ -79,7 +24,12 @@ export class Header extends Component {
 const Nav = props => {
     let items = props.items.map(item => {
         return (
-            <NavItem key={item}>
+            <NavItem
+                key={item}
+                className={
+                    props.current === item.toLowerCase() ? "current" : ""
+                }
+            >
                 <Link onClickFunc={props.onClickFunc.bind(this, item)}>
                     {item}
                 </Link>
@@ -95,7 +45,7 @@ const Nav = props => {
 };
 
 const NavItem = props => {
-    return <li className="nav-item">{props.children}</li>;
+    return <li className={"nav-item " + props.className}>{props.children}</li>;
 };
 
 export default Header;

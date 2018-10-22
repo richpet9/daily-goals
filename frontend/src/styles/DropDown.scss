@@ -42,16 +42,19 @@
             background: $lighterGrey;
         }
 
-        .widget-item:last-child {
-            height: 150px;
-        }
-
         .widget-item:hover {
             background: $lightGrey;
         }
 
         .widget-item.current {
             font-weight: bold;
+        }
+
+        .widget-item.calendar {
+            padding: 3px;
+        }
+        .widget-item.calendar:hover {
+            background: $lighterGrey !important;
         }
     }
 
@@ -75,8 +78,11 @@
     position: relative;
     display: inline-block;
     background: $lightGrey;
-    padding: 8px 16px;
-    padding-right: 20px;
     width: 160px;
     cursor: pointer;
+
+    .drop-down-button {
+        padding: 8px 16px;
+        padding-right: 20px;
+    }
 }

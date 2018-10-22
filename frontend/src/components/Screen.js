@@ -110,12 +110,21 @@ class Screen extends Component {
             ? this.state.currentDay
             : this.dummyDay;
 
+        const today = dayAPI.getToday();
+
         const monthData = dayAPI.getMonthOf(currentDay);
         const weekData = dayAPI.getWeekOf(currentDay);
 
         return (
             <div className="container">
-                <Header onClickFunc={this.handleNavClick} />
+                <Header
+                    onClickFunc={this.handleNavClick}
+                    currentDisplay={
+                        this.state.currentDisplay
+                            ? this.state.currentDisplay
+                            : "week"
+                    }
+                />
                 <Dashboard
                     weekData={weekData}
                     monthData={monthData}
@@ -125,6 +134,7 @@ class Screen extends Component {
                             : "week"
                     }
                     currentDay={currentDay}
+                    today={today}
                     goToDay={this.goToDay}
                     dayAPI={dayAPI}
                     setDay={this.setDay}
@@ -132,6 +142,7 @@ class Screen extends Component {
                 <Debug
                     logAPI={this.logAPI}
                     logCurrentDay={this.logCurrentDay}
+                    monthData={monthData}
                 />
             </div>
         );

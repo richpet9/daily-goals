@@ -45,13 +45,9 @@ class DropDown extends Component {
 
         //The list of options in the drop down
         const options = this.props.options.map(item => {
-            const classes =
-                item === this.props.currentSet
-                    ? "widget-item current"
-                    : "widget-item";
             return (
                 <li
-                    className={classes}
+                    className="widget-item"
                     onClick={this.props.function.bind(this, item)}
                     key={item}
                 >
@@ -63,26 +59,34 @@ class DropDown extends Component {
         return (
             <div
                 className="drop-down-container"
-                onClick={this.toggleExpanded}
                 ref={node => (this.node = node)}
             >
-                <span className="widget-date">{day.getDateFormatted("/")}</span>
-                <span
-                    className={
-                        this.state.expanded
-                            ? "widget-carot expanded"
-                            : "widget-carot"
-                    }
-                />
+                <div className="drop-down-button" onClick={this.toggleExpanded}>
+                    <span className="widget-date">
+                        {day.getDateFormatted("/")}
+                    </span>
+                    <span
+                        className={
+                            this.state.expanded
+                                ? "widget-carot expanded"
+                                : "widget-carot"
+                        }
+                    />
+                </div>
 
                 {this.state.expanded ? (
                     <ul className="widget-options expanded">
                         {options}
-                        <Calendar
-                            monthData={this.props.monthData}
-                            goToDay={this.props.setDay}
-                            inNav={true}
-                        />
+                        <li className="widget-item calendar">
+                            <Calendar
+                                day={this.props.day}
+                                today={this.props.today}
+                                monthData={this.props.monthData}
+                                goToDay={this.props.setDay}
+                                inNav={true}
+                                handleDayNav={this.props.handleDayNav}
+                            />
+                        </li>
                     </ul>
                 ) : (
                     ""

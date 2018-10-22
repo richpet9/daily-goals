@@ -29,7 +29,10 @@ class CalendarDay extends Component {
                                     }
                                 };
                                 return (
-                                    <div className={classes(goal)}>
+                                    <div
+                                        className={classes(goal)}
+                                        key={goal.goalId}
+                                    >
                                         {goal.goalText}
                                     </div>
                                 );

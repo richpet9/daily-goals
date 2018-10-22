@@ -17,6 +17,7 @@ export class Dashboard extends Component {
                         weekData={this.props.weekData}
                         monthData={this.props.monthData}
                         currentDay={this.props.currentDay}
+                        today={this.props.today}
                         dayAPI={this.props.dayAPI}
                         setDay={this.props.setDay}
                     />
@@ -27,6 +28,7 @@ export class Dashboard extends Component {
                         weekData={this.props.weekData}
                         monthData={this.props.monthData}
                         currentDay={this.props.currentDay}
+                        today={this.props.today}
                         dayAPI={this.props.dayAPI}
                         goToDay={this.props.goToDay}
                         setDay={this.props.setDay}
@@ -38,6 +40,7 @@ export class Dashboard extends Component {
                         weekData={this.props.weekData}
                         monthData={this.props.monthData}
                         currentDay={this.props.currentDay}
+                        today={this.props.today}
                         dayAPI={this.props.dayAPI}
                         goToDay={this.props.goToDay}
                         setDay={this.props.setDay}

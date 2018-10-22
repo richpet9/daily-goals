@@ -1,7 +1,6 @@
 @import "./_default.scss";
 
 .calendar-day {
-    background: $white;
     position: relative;
     height: 8vw;
     border-bottom: 1px solid $lightGrey;
@@ -20,6 +19,7 @@
     }
 
     .calendar-perc {
+        display: none;
         position: absolute;
         padding-top: 6px;
         padding-bottom: 8px;
@@ -77,6 +77,14 @@
     opacity: 0.3;
 }
 
+.calendar-day.today {
+    background: $lightGrey;
+
+    .calendar-perc {
+        background: $lightGrey;
+    }
+}
+
 .calendar-day.in-nav {
     height: auto;
     padding: 0;
@@ -96,7 +104,15 @@
     box-shadow: none;
 
     .calendar-date {
-        background: $darkGrey;
-        color: $white;
+        background: $lightGrey;
+    }
+}
+
+.calendar-day.in-nav.current {
+    background: $darkGrey !important;
+    color: $white;
+
+    .calendar-date {
+        background: none;
     }
 }
