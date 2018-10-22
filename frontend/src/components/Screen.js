@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
 import Debug from "./Debug";
-import DayAPI, { Day } from "../classes/DayAPI";
+import DayAPI from "../classes/DayAPI";
+import Day from "../classes/Day";
 
 //Stylesheet
 import "../styles/Screen.css";

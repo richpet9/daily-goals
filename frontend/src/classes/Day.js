@@ -181,9 +181,8 @@ export class Day {
                 returnVal =
                     this.getDayName() +
                     ", " +
-                    dayDate.getUTCMonth() +
-                    1 +
-                    ", " +
+                    this.getMonthName() +
+                    " " +
                     dayDate.getUTCDate() +
                     ", " +
                     dayDate.getUTCFullYear();
