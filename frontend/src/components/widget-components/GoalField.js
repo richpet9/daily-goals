@@ -16,12 +16,13 @@ export class GoalField extends Component {
             const goalInfo = this.props.goals;
             goals = goalInfo.map(goal => {
                 return (
-                    <Goal.Reg
+                    <Goal
                         text={goal.goalText} //The text in the goal block
                         key={goal.goalId} //The Key for React
                         done={goal.goalDone}
                         goalId={goal.goalId}
                         onClick={this.props.onClickGoal}
+                        handleSetGoal={this.props.handleSetGoal}
                     />
                 );
             });
@@ -30,7 +31,7 @@ export class GoalField extends Component {
         return (
             <div className="goal-field">
                 {goals}
-                <Goal.Button onClick={this.props.onClickAdd} />
+                <Goal onClickAdd={this.props.onClickAdd} button={true} />
             </div>
         );
     }

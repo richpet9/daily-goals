@@ -8,7 +8,7 @@
     min-width: 175px;
     margin: 0 16px;
     margin-bottom: 32px;
-    padding: 16px;
+    padding: 10px;
     color: $darkGrey;
     text-align: center;
     font-size: 18px;
@@ -17,12 +17,54 @@
     box-shadow: $matShadowLight;
     transition: box-shadow 100ms $matEaseStd, color 100ms $matEaseStd,
         background 100ms $matEaseStd, border 100ms $matEaseStd;
+    z-index: 3;
 
     .goal-body {
+        display: inline-block;
         position: relative;
         top: 50%;
+        transform: translateY(-50%);
+        z-index: 5;
+
+        .goal-input {
+            border: none;
+            font-size: inherit;
+            display: inline;
+            width: 10px;
+        }
+    }
+
+    .goal-body:after {
+        content: "";
+        position: relative;
         left: 50%;
-        transform: translate(-50%, -50%);
+        top: 3px;
+        display: block;
+        background: $darkGrey;
+        width: 0%;
+        height: 1.5px;
+        opacity: 0;
+        transition: all 200ms $matEaseStd;
+    }
+
+    .bg-link {
+        position: absolute;
+        content: "";
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 4;
+        border-bottom: none;
+    }
+
+    .goal-body:hover:after,
+    .goal-body.editing:after {
+        width: 100%;
+        left: 0%;
+        top: 0;
+        opacity: 1;
     }
 }
 

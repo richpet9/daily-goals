@@ -41,6 +41,20 @@ export class Day {
     }
 
     /**
+     * setGoalText() will update the given goalId with new text
+     * @param {int} goalId The ID of the Goal you would like to toggle
+     * @param {string} goalText The new text of the goal
+     */
+    setGoal(goalId, goalText) {
+        this.dayGoals.forEach(goal => {
+            if (goal.goalId === goalId) {
+                goal.goalText = goalText;
+            }
+        });
+        return this;
+    }
+
+    /**
      * addGoal() will add a goal to the current day object (not database), and return the day
      * @param {String} goalText The text of the goal
      * @param {Boolean} goalDone The boolean done-ness of this goal
@@ -186,6 +200,22 @@ export class Day {
                     dayDate.getUTCDate() +
                     ", " +
                     dayDate.getUTCFullYear();
+                break;
+            case "f-dN":
+                returnVal =
+                    this.getMonthName() +
+                    " " +
+                    dayDate.getUTCDate() +
+                    ", " +
+                    dayDate.getUTCFullYear();
+                break;
+            case "f-Y":
+                returnVal =
+                    this.getDayName() +
+                    ", " +
+                    this.getMonthName() +
+                    " " +
+                    dayDate.getUTCDate();
                 break;
             default:
                 returnVal = "";

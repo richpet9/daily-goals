@@ -10,16 +10,19 @@ export class WidgetControls extends Component {
 
         switch (this.props.type) {
             case "day":
-                title = this.props.currentDay.getDayName();
+                title = this.props.currentDay.getDateFormatted("f");
                 options = ["Today"];
                 break;
             case "week":
                 title =
-                    "Week of " + this.props.weekData[0].getDateFormatted("/");
+                    "Week of " + this.props.weekData[0].getDateFormatted("f-Y");
                 options = ["This Week"];
                 break;
             case "month":
-                title = this.props.currentDay.getMonthName();
+                title =
+                    this.props.currentDay.getMonthName() +
+                    ", " +
+                    this.props.currentDay.dayDate.getUTCFullYear();
                 options = ["This Month"];
                 break;
             default:

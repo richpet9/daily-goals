@@ -127,14 +127,14 @@ export class DayAPI {
         }
 
         //The first day of this week
-        let firstMonday;
+        let firstSunday;
 
-        //Determine if this day is a Monday
-        if (day.getDayName() === "Monday") {
+        //Determine if this day is a Sunday
+        if (day.getDayName() === "Sunday") {
             //This day is a Monday
-            firstMonday = day;
+            firstSunday = day;
         } else {
-            //Go backwards until we hit the first Monday
+            //Go backwards until we hit the first Sunday
             let search = true; //Loop controller
             let dayToCheck = day; //The day to check within the loop
 
@@ -143,17 +143,17 @@ export class DayAPI {
                 //Assign dayToCheck to the previous day
                 dayToCheck = this.getPreviousDay(dayToCheck);
 
-                //If dayCheck is a Monday
-                if (dayToCheck.getDayName() === "Monday") {
+                //If dayCheck is a Sunday
+                if (dayToCheck.getDayName() === "Sunday") {
                     search = false; //Stop the loop
-                    firstMonday = dayToCheck; //Assign first Monday to this day
+                    firstSunday = dayToCheck; //Assign first Sunday to this day
                 }
             }
         }
 
-        //Now that we have the first Monday, we can go through the next 7 days, add them
+        //Now that we have the first Sunday, we can go through the next 7 days, add them
         //to an array, and return that array
-        const week = this.getDayRange(firstMonday, 7);
+        const week = this.getDayRange(firstSunday, 7);
 
         return week;
     }

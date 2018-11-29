@@ -19,6 +19,7 @@ export class DisplayDay extends Component {
         this.onClickGoal = this.onClickGoal.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
         this.onClickControlItem = this.onClickControlItem.bind(this);
+        this.handleSetGoal = this.handleSetGoal.bind(this);
         this.handleDayNav = this.handleDayNav.bind(this);
     }
 
@@ -79,6 +80,14 @@ export class DisplayDay extends Component {
     }
 
     /**
+     * onClickGoal() will fire when a goal block is clicked, toggling it's done state
+     */
+    handleSetGoal(id, text) {
+        const { currentDay } = this.props;
+        this.setState({ goals: currentDay.setGoal(id, text).dayGoals });
+    }
+
+    /**
      * handleDayNav fires when a directional arrow is clicked in widget-controls
      * @param {string} direction The direction to get the consecutive day
      */
@@ -97,9 +106,6 @@ export class DisplayDay extends Component {
         }
     }
 
-    //TODO: Extract widget-controls to it's own component "Widget" with type="day" DONE.
-    //AFTER DOING THAT: Making animations between the widgets should be much easier
-    //QUESTION FOR MYSELF: Should DisplayDay's Widgets be a different component than DisplayWeek's?
     render() {
         return (
             <div className="widget" style={this.props.style}>
@@ -122,6 +128,7 @@ export class DisplayDay extends Component {
                         goals={this.state.goals}
                         onClickGoal={this.onClickGoal}
                         onClickAdd={this.onClickAdd}
+                        handleSetGoal={this.handleSetGoal}
                     />
                 </div>
             </div>

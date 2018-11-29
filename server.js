@@ -8,7 +8,7 @@ const MongoClient = require("mongodb").MongoClient; //Require client
 const assert = require("assert"); //Require assert
 
 const app = express(); //Create the Express app
-const port = process.env.PORT || 5000; //Set the port
+const port = process.env.PORT || 3002; //Set the port
 
 //Use middleware for handling POST requests
 app.use(bodyParser.json());
