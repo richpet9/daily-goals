@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import Screen from "./components/Screen";
 import * as serviceWorker from "./serviceWorker";
 
