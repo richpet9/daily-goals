@@ -1,106 +1,106 @@
-@import "_default.scss";
+@import '_default.scss';
 
 .goal {
-    background: $white;
+  background: $white;
+  position: relative;
+  height: 135px;
+  width: calc(25% - 24px);
+  min-width: 175px;
+  margin: 0 16px;
+  margin-bottom: 32px;
+  padding: 10px;
+  color: $darkGrey;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow: $matShadowLight;
+  transition: box-shadow 100ms $matEaseStd, color 100ms $matEaseStd, background 100ms $matEaseStd, border 100ms $matEaseStd;
+  z-index: 3;
+
+  .goal-body {
+    display: inline-block;
     position: relative;
-    height: 135px;
-    width: calc(25% - 24px);
-    min-width: 175px;
-    margin: 0 16px;
-    margin-bottom: 32px;
-    padding: 10px;
-    color: $darkGrey;
-    text-align: center;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 3px;
-    box-shadow: $matShadowLight;
-    transition: box-shadow 100ms $matEaseStd, color 100ms $matEaseStd,
-        background 100ms $matEaseStd, border 100ms $matEaseStd;
-    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
 
-    .goal-body {
-        display: inline-block;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 5;
-
-        .goal-input {
-            border: none;
-            font-size: inherit;
-            display: inline;
-        }
+    .goal-input {
+      border: none;
+      font-size: inherit;
+      display: inline;
+      min-width: 80px !important;
     }
+  }
 
-    .goal-body:after {
-        content: "";
-        position: relative;
-        left: 50%;
-        top: 3px;
-        display: block;
-        background: $darkGrey;
-        width: 0%;
-        height: 1.5px;
-        opacity: 0;
-        transition: all 200ms $matEaseStd;
-    }
+  .goal-body:after {
+    content: '';
+    position: relative;
+    left: 50%;
+    top: 3px;
+    display: block;
+    background: $darkGrey;
+    width: 0%;
+    height: 1.5px;
+    opacity: 0;
+    transition: all 200ms $matEaseStd;
+  }
 
-    .bg-link {
-        position: absolute;
-        content: "";
-        display: block;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 4;
-        border-bottom: none;
-    }
+  .bg-link {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    border-bottom: none;
+  }
 
-    .goal-body:hover:after,
-    .goal-body.editing:after {
-        width: 100%;
-        left: 0%;
-        top: 0;
-        opacity: 1;
-    }
+  .goal-body:hover:after,
+  .goal-body.editing:after {
+    width: 100%;
+    left: 0%;
+    top: 0;
+    opacity: 1;
+  }
 }
 
 .goal:nth-child(4n + 1) {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .goal:nth-child(4n) {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .goal.done {
-    background: $darkGrey;
-    color: $white;
+  background: $darkGrey;
+  color: $white;
 }
 
 .goal:hover {
-    box-shadow: $matShadowHeavy;
+  box-shadow: $matShadowHeavy;
 }
 
 .goal.button {
-    background: none;
-    color: $lightGrey;
-    font-size: 20px;
-    box-shadow: none;
-    border: 4px dashed $lightGrey;
-    font-weight: normal;
-    padding: 0;
+  background: none;
+  color: $lightGrey;
+  font-size: 20px;
+  box-shadow: none;
+  border: 4px dashed $lightGrey;
+  font-weight: normal;
+  padding: 0;
 
-    .goal-plus {
-        font-size: 112px;
-        line-height: 100%;
-        font-weight: lighter;
-    }
+  .goal-plus {
+    font-size: 112px;
+    line-height: 100%;
+    font-weight: lighter;
+  }
 }
 
 .goal.button:hover {
-    border-color: $darkGrey;
-    color: $darkGrey;
+  border-color: $darkGrey;
+  color: $darkGrey;
 }
